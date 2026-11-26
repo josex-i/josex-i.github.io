@@ -51,7 +51,7 @@ const CONTENT = {
     email: "omondijose58@gmail.com",
     phone: "+254 740 339 124",
     linkedin: "https://www.linkedin.com/in/joseph-omondi-otieno",
-    youtube: "",                // TODO paste your YouTube channel link, e.g. "https://www.youtube.com/@yourchannel"
+    youtube: "https://www.youtube.com/@TheSpectorPodcast",
     github: "",
     whatsapp: "",
   },
