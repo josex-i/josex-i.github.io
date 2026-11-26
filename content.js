@@ -25,7 +25,10 @@ const CONTENT = {
     "CAMS graduate (KASNEB) with QuickBooks experience.",
   location: "Kisumu, Kenya",
   portrait: "assets/photos/headshot-cutout.png",   // transparent background version
-  cv: "",                       // put a CV PDF in assets/docs and write e.g. "assets/docs/Joseph-Omondi-Otieno-CV.pdf"
+  cv: "assets/docs/Joseph-Omondi-Otieno-CV.pdf",   // made from cv.html, see README to update it
+  heroTitle: "Bookkeeper & Administrative Secretary",
+  heroCreds: "CAMS graduate (KASNEB) · Excel & QuickBooks · 7 years at St. Theresa's Cathedral, Kibuye",
+  aboutPhoto: "assets/photos/headshot.jpg",
   availability: "Open to finance & administration roles",
 
   /* Headline numbers (hero) */
@@ -242,7 +245,7 @@ const CONTENT = {
     {
       title: "St. Theresa's Cathedral Website",
       category: "visual",
-      image: "assets/projects/cathedral-website.png",
+      image: "assets/projects/cathedral-website.jpg",
       description: "Designed and built a modern, mobile-friendly website for the cathedral: Mass times, office hours, contacts and directions.",
       outcome: "Parishioners find service times and directions on any phone.",
       link: "",

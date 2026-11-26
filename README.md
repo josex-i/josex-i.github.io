@@ -41,6 +41,18 @@ That's the link for your CV, email signature, LinkedIn "Website" field and job a
 **Updating later:** edit the files, then upload them to the repo again (or use VS Code's
 Source Control panel / GitHub Desktop to push changes). The site updates in about a minute.
 
+## Updating your CV
+
+The CV is the page `cv.html`. Edit its text in VS Code, then rebuild the PDF the
+"Download CV" button serves (with Live Server or the preview running on port 5500):
+
+```powershell
+& "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --no-pdf-header-footer --print-to-pdf="assets\docs\Joseph-Omondi-Otieno-CV.pdf" "http://localhost:5500/cv.html"
+```
+
+Or open `cv.html` in your browser, press **Ctrl+P**, choose **Save as PDF**, untick
+**Headers and footers**, and save it over `assets/docs/Joseph-Omondi-Otieno-CV.pdf`.
+
 ## 3. Tips that make recruiters come back
 
 - **Lead with results, not duties.** "Cut month-end close from 10 to 6 days" beats "Responsible for month-end."

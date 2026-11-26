@@ -47,6 +47,10 @@
     el.textContent = n ? `[${String(n).padStart(2, "0")}]` : "";
   });
 
+  /* ----- real headshot in the About section ----- */
+  html("#about-photo", C.aboutPhoto ? `<img src="${esc(C.aboutPhoto)}" alt="Joseph Omondi Otieno" loading="lazy" width="480" height="480"><figcaption>${esc(C.name)} · ${esc(C.location)}</figcaption>` : "");
+  if (!C.aboutPhoto) $("#about-photo")?.remove();
+
   /* ----- key figures ----- */
   html("#stats", (C.stats || []).map((s) => `<div><dt>${esc(s.value)}</dt><dd>${esc(s.label)}</dd></div>`).join(""));
 

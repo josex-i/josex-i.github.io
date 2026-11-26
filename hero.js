@@ -7,6 +7,7 @@
   if (!hero || !canvas || !C.portrait) return;
   const ctx = canvas.getContext("2d");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const lowPower = matchMedia("(pointer: coarse)").matches || innerWidth < 760;   // phones & tablets
 
   /* live Kisumu clock in the meta row */
   const clock = document.getElementById("clock");
@@ -31,7 +32,7 @@
     const narrow = W < 760;
     const ph = H * (narrow ? 0.62 : 0.9);              // portrait height on screen
     const pw = ph * img.width / img.height;
-    const cell = Math.max(5, Math.round(ph / (narrow ? 70 : 95)));
+    const cell = Math.max(5, Math.round(ph / (narrow ? 56 : 95)));   // fewer, bigger tiles on phones
     const cols = Math.round(pw / cell), rows = Math.round(ph / cell);
     const ox = (W - cols * cell) / 2 + (narrow ? 0 : W * 0.06);
     const oy = H - rows * cell - (narrow ? H * 0.14 : 0);
@@ -43,6 +44,7 @@
     const px = o.getImageData(0, 0, cols, rows).data;
 
     tiles = [];
+    const instant = reduce || document.hidden;   // opened in a background tab: show the finished portrait straight away
     let seed = 7;
     const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
     // stretch the photo's own brightness range to full contrast, so features read clearly
@@ -60,20 +62,20 @@
       const hx = ox + x * cell, hy = oy + y * cell;
       tiles.push({
         hx, hy,
-        x: reduce ? hx : Math.random() * W, y: reduce ? hy : Math.random() * H * 1.2 - H * 0.1,
+        x: instant ? hx : Math.random() * W, y: instant ? hy : Math.random() * H * 1.2 - H * 0.1,
         vx: 0, vy: 0,
         s: cell * (0.34 + 0.56 * l),
         c: `rgb(${r | 0},${g | 0},${b | 0})`,
         d: 0.03 + rnd() * 0.05,                          // per-tile stiffness: they arrive at different speeds
       });
     }
-    specks = Array.from({ length: narrow ? 50 : 140 }, () => ({
+    specks = Array.from({ length: narrow ? 30 : 140 }, () => ({
       x: Math.random() * W, y: Math.random() * H, s: 1 + Math.random() * 3,
       vx: (Math.random() - 0.5) * 0.15, vy: (Math.random() - 0.5) * 0.15,
       a: 0.08 + Math.random() * 0.35, t: TINTS[(Math.random() * TINTS.length) | 0],
     }));
     settledFrames = 0;
-    if (reduce) draw();
+    if (instant) draw();
   }
 
   function draw() {
@@ -107,14 +109,19 @@
   function loop() {
     if (!visible) { running = false; return; }
     step();
-    // once everything has settled and the mouse is away, slow down to a gentle drift (saves battery)
-    if (settledFrames > 60 && mouse.x < -999) { running = false; setTimeout(start, 120); return; }
+    // once settled and the mouse is away: on phones stop completely; on desktop drift gently at low frame rate
+    if (settledFrames > 60 && mouse.x < -999) {
+      running = false;
+      if (!lowPower) setTimeout(start, 120);
+      return;
+    }
     requestAnimationFrame(loop);
   }
   function start() { if (reduce || running || !visible) return; running = true; requestAnimationFrame(loop); }
 
   hero.addEventListener("pointermove", (e) => { const r = canvas.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; start(); });
   hero.addEventListener("pointerleave", () => { mouse.x = mouse.y = -9999; start(); });
-  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); }).observe(hero);
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting && !document.hidden; if (visible) start(); }).observe(hero);
+  document.addEventListener("visibilitychange", () => { visible = !document.hidden && hero.getBoundingClientRect().bottom > 0; if (visible) start(); });
   let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (Math.abs(hero.clientWidth - W) > 40) { build(); start(); } }, 200); });
 })();

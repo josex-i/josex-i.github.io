@@ -50,7 +50,8 @@
       </div>
       <div class="wrap hero__bottom">
         <div class="hero__intro">
-          <p data-bind="heroLine"></p>
+          <p class="hero__title" data-bind="heroTitle"></p>
+          <p class="hero__creds" data-bind="heroCreds"></p>
           <div class="hero__cta">
             <a href="#toolkits" class="btn btn--light">Explore the work <span aria-hidden="true">↓</span></a>
             <a href="#" class="btn btn--ghost" id="cv-link" download>Download CV</a>
@@ -75,7 +76,10 @@
           <h2>Clear numbers. Calm office. <em>Honest reports.</em></h2>
         </header>
         <div class="grid-2">
-          <p class="lead" data-bind="intro"></p>
+          <div class="about-left">
+            <figure class="about-photo" id="about-photo"></figure>
+            <p class="lead" data-bind="intro"></p>
+          </div>
           <div class="prose" id="about-text"></div>
         </div>
         <div class="competencies" id="expertise-cards"></div>

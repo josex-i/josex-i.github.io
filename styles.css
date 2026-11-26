@@ -92,7 +92,12 @@ p { margin: 0 0 1em; }
 .hero__meta dd { margin: 0; font-size: .86rem; color: var(--ink); display: flex; align-items: center; gap: 8px; }
 .hero__bottom { position: absolute; left: 0; right: 0; bottom: clamp(120px, 19vw, 250px); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
 .hero__intro { max-width: 340px; }
-.hero__intro p { font-size: .94rem; color: var(--ink-2); }
+.hero__intro { max-width: 420px; }
+.hero__title { font: 600 clamp(1.5rem, 2.6vw, 2.1rem)/1.15 var(--sans); letter-spacing: -.02em; color: var(--ink); margin: 0 0 .45em; text-shadow: 0 2px 18px rgb(0 0 0 / .8); }
+.hero__creds { font-size: .9rem; color: var(--ink-2); margin: 0; text-shadow: 0 1px 10px rgb(0 0 0 / .9); }
+.about-photo { margin: 0 0 28px; max-width: 320px; }
+.about-photo img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; object-position: center 30%; border-radius: 24px; filter: grayscale(.15); }
+.about-photo figcaption { font: .72rem var(--mono); color: var(--ink-3); margin-top: 10px; }
 .hero__cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 1rem; }
 .hero__socials { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; justify-items: end; }
 .hero__name { position: absolute; left: 16px; right: 16px; bottom: -0.16em; z-index: 3; margin: 0; display: flex; justify-content: center; font: italic 400 clamp(4rem, 17vw, 16rem)/1 var(--serif); letter-spacing: -.02em; white-space: nowrap; color: var(--ink); pointer-events: none; mix-blend-mode: difference; }
@@ -102,8 +107,9 @@ p { margin: 0 0 1em; }
   .hero__meta dl { grid-template-columns: 1fr 1fr; }
   .hero__status { grid-column: 1 / -1; }
   .hero__bottom { flex-direction: column; align-items: flex-start; bottom: 26%; }
-  .hero__intro { max-width: none; }
-  .hero__intro p { display: none; }
+  .hero__intro { max-width: none; width: 100%; background: rgb(5 5 5 / .74); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--line-2); border-radius: 18px; padding: 16px 16px 14px; }
+  .hero__title { font-size: 1.35rem; }
+  .hero__creds { font-size: .8rem; }
   .hero__socials { display: flex; flex-wrap: wrap; justify-items: start; }
   .hero__line { inset: 22% 0 40% 0; height: 38%; }
 }
