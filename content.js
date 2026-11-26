@@ -13,6 +13,7 @@ const CONTENT = {
   initials: "JO",
   heroFirst: "JOSEPH",          // big outlined word at the top
   heroLast: "OTIENO",           // big solid word at the top
+  heroDisplay: "Joseph Otieno",  // the big italic name at the bottom of the hero
   heroRole: "Finance & Administration",
   heroLine: "Counting, banking, reconciling and reporting a cathedral's money, with Excel toolkits I designed to keep every figure right.",
   role: "Bookkeeper / Treasurer · Administrative Secretary",
@@ -155,6 +156,35 @@ const CONTENT = {
       outcome: "KSh 6,414,128 billed and KSh 4,855,906 paid by cheque, January–September 2026, every line traceable to its cheque.",
       role: "I prepare the schedule each month and record each cheque; cheques are signed by the authorised signatories.",
     },
+  ],
+
+  /* Dashboard figures for each case study, keyed by its code.
+     kpis = headline tiles · meter = one % bar · bars = one small bar chart */
+  dashboards: {
+    "01": { kpis: [["7", "entry forms"], ["8", "reports for the priest"], ["2,478", "Paybill rows sorted"], ["KSh 224,880", "double count prevented"]],
+            meter: { label: "Mission income vs. 2026 projection", pct: 87.8, note: "KSh 16.45M of 18.74M" } },
+    "02": { kpis: [["10 min", "per weekly report (was 30–35)"], ["~37", "income sources a week"], ["KSh 260,990", "source error exposed"]],
+            bars: { title: "Monthly income, Mission account", unit: "KSh", data: [["Aug (5 wks)", 2213923], ["Sep", 1600148]] } },
+    "03": { kpis: [["43", "stalls on the ledger"], ["10 / 10", "integrity checks pass"], ["KSh 1,230,500", "arrears made visible"]],
+            meter: { label: "2026 rent collected to date", pct: 64.9, note: "KSh 2.28M of 3.51M due" } },
+    "04": { kpis: [["KSh 4.56M", "tithe, Jan–Oct 2026"], ["5 months", "banked with nil variance"], ["12", "pre-dated count sheets"]],
+            meter: { label: "Tithe received through Paybill", pct: 78, note: "the rest in envelopes" } },
+    "05": { kpis: [["159", "budget lines"], ["2", "accounts: Mission & PPC"], ["KSh 80.7M", "income projected for 2026"]],
+            meter: { label: "Mission income received by October", pct: 87, note: "tracked line by line" } },
+    "06": { kpis: [["KSh 1,161,928", "raised for the roof"], ["1,161", "Decra sheets funded"], ["KSh 0", "variance"], ["KSh 336,235", "tiles appeal, first 8 days"]],
+            meter: { label: "Roof appeal vs. KSh 1,000,000 target", pct: 116.2, note: "target passed" },
+            bars: { title: "Where the roof money came from", unit: "KSh", data: [["Sunday Masses", 1052838], ["Weekday Sadaka", 109090]] } },
+    "07": { kpis: [["27", "quotations registered"], ["395", "item lines"], ["KSh 6.9M", "works tracked to payment"], ["KSh 0", "balance unpaid"]],
+            bars: { title: "Quotations registered per month, 2026", unit: "", data: [["Mar", 13], ["Apr", 5], ["May", 1], ["Jun", 1], ["Jul", 3], ["Aug", 1], ["Sep", 1], ["Oct", 2]] } },
+    "08": { kpis: [["KSh 6.41M", "billed, Jan–Sep 2026"], ["KSh 4.86M", "paid by cheque"], ["3", "statutory deductions"]],
+            meter: { label: "Bills paid by cheque vs. billed", pct: 75.7, note: "every line traceable to its cheque" } },
+  },
+
+  /* ---------- FILMS (Google Drive videos; each must be shared as "Anyone with the link") ---------- */
+  films: [
+    { id: "1Et_isAUNUVD9XtQwAe4Kb1ncZnZJMY8Y", title: "The Upriser", note: "Taekwondo tournament coverage" },
+    { id: "1N41iroiaGLKeuxLlFVFPzeQcSH9mu18J", title: "St. Charles Lwanga Secondary School", note: "School feature" },
+    { id: "1egX0rsHbaJr1X_xFKYcUoyRNUpqpLumt", title: "Jaramogi Oginga Odinga Teaching & Referral Hospital", note: "Hospital feature" },
   ],
 
   furtherWork: [

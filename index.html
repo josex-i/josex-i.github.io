@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#050505" />
   <title>Joseph Omondi Otieno · Finance & Administration Portfolio</title>
   <meta name="description" content="Bookkeeper / Treasurer and Administrative Secretary at St. Theresa's Cathedral, Kibuye. Excel finance toolkits, reconciliation and reporting. CAMS graduate (KASNEB)." />
   <meta property="og:title" content="Joseph Omondi Otieno · Finance & Administration Portfolio" />
@@ -12,7 +13,7 @@
   <meta property="og:type" content="profile" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -20,41 +21,45 @@
 
   <header class="nav" id="top">
     <div class="wrap nav__inner">
-      <p class="pill pill--status"><span class="dot"></span><span data-bind="availability"></span></p>
-      <a href="#top" class="brand"><span data-bind="initials"></span></a>
+      <a href="#top" class="brand" aria-label="Back to top"><span data-bind="initials"></span></a>
       <nav id="menu" class="nav__menu" aria-label="Main">
         <a href="#toolkits">Case studies <sup data-count="caseStudies"></sup></a>
         <a href="#administration">Administration</a>
         <a href="#media">Media</a>
-        <a href="#experience">Experience <sup>[7y+]</sup></a>
-        <a href="#contact">Contact</a>
+        <a href="#films">Films <sup data-count="films"></sup></a>
+        <a href="#experience">Experience</a>
       </nav>
-      <a href="#contact" class="btn btn--dark nav__cta">Let's talk <span aria-hidden="true">↗</span></a>
+      <a href="#contact" class="btn btn--light nav__cta">Let's talk <span aria-hidden="true">↗</span></a>
       <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
     </div>
   </header>
 
   <main id="main">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="wrap">
-        <h1 class="hero__name" aria-label="Joseph Omondi Otieno">
-          <span class="outline" data-bind="heroFirst"></span>
-          <span class="solid" data-bind="heroLast"></span>
-        </h1>
+    <!-- HERO: portrait built from tiles -->
+    <section class="hero" aria-label="Introduction">
+      <canvas class="hero__canvas" id="mosaic" aria-hidden="true"></canvas>
+      <svg class="hero__line" id="hero-line" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M-10 470 C 60 455, 90 300, 120 330 S 170 520, 220 440 S 300 210, 340 260 S 400 420, 460 360 S 560 160, 600 210 S 650 330, 700 280 S 790 90, 830 120 S 900 60, 1010 30" />
+      </svg>
+      <div class="wrap hero__meta">
+        <dl>
+          <div><dt>Currently</dt><dd data-bind="role"></dd></div>
+          <div><dt>Based in</dt><dd><span data-bind="location"></span> · <span id="clock"></span></dd></div>
+          <div class="hero__status"><dt>Status</dt><dd><span class="dot"></span><span data-bind="availability"></span></dd></div>
+        </dl>
       </div>
-      <div class="wrap hero__stage">
-        <div class="hero__left">
-          <h2 class="hero__role" data-bind="heroRole"></h2>
-          <p class="hero__line" data-bind="heroLine"></p>
+      <div class="wrap hero__bottom">
+        <div class="hero__intro">
+          <p data-bind="heroLine"></p>
           <div class="hero__cta">
-            <a href="#toolkits" class="btn btn--dark">See my work <span aria-hidden="true">↗</span></a>
+            <a href="#toolkits" class="btn btn--light">Explore the work <span aria-hidden="true">↓</span></a>
             <a href="#" class="btn btn--ghost" id="cv-link" download>Download CV</a>
           </div>
         </div>
-        <figure class="hero__portrait" id="portrait"></figure>
         <ul class="hero__socials" id="socials" aria-label="Find me online"></ul>
       </div>
+      <h1 class="hero__name" aria-label="Joseph Omondi Otieno"><span data-bind="heroDisplay"></span></h1>
+      <figure class="hero__portrait" id="portrait" hidden></figure>
     </section>
 
     <!-- KEY FIGURES -->
@@ -67,7 +72,7 @@
       <div class="wrap">
         <header class="sec-head">
           <p class="eyebrow"><span>01</span> About</p>
-          <h2>Clear numbers. Calm office. <span class="soft">Honest reports.</span></h2>
+          <h2>Clear numbers. Calm office. <em>Honest reports.</em></h2>
         </header>
         <div class="grid-2">
           <p class="lead" data-bind="intro"></p>
@@ -77,15 +82,15 @@
       </div>
     </section>
 
-    <!-- 02 CASE STUDIES -->
-    <section class="section section--tint" id="toolkits">
+    <!-- 02 CASE STUDIES: dashboard -->
+    <section class="section dash" id="toolkits">
       <div class="wrap">
         <header class="sec-head sec-head--row">
           <div>
-            <p class="eyebrow"><span>02</span> Selected work</p>
-            <h2>Toolkits that run a cathedral's finances</h2>
+            <p class="eyebrow"><span>02</span> Selected work · Finance</p>
+            <h2>Toolkits that run a <em>cathedral's finances</em></h2>
           </div>
-          <p class="sec-lede">My specification, built with Claude AI, tested against real cash and bank records, and run by me every week. <em>Figures as at 13 October 2026. Click a row to open it.</em></p>
+          <p class="sec-lede">My specification, built with Claude AI, tested against real cash and bank records, and run by me every week. <em>Figures as at 13 October 2026. Open a row to see its dashboard.</em></p>
         </header>
 
         <div class="flow" aria-label="How the toolkits work">
@@ -105,6 +110,7 @@
         <div class="tiles tiles--3" id="controls"></div>
         <p class="note" id="workbooks-note"></p>
       </div>
+      <div class="viz-tip" id="viz-tip" role="tooltip" hidden></div>
     </section>
 
     <!-- 03 ADMINISTRATION -->
@@ -113,7 +119,7 @@
         <header class="sec-head sec-head--row">
           <div>
             <p class="eyebrow"><span>03</span> Administration</p>
-            <h2>The office behind the altar</h2>
+            <h2>The office <em>behind the altar</em></h2>
           </div>
           <p class="sec-lede">Correspondence, registers, procurement and visitors: the work that keeps a busy parish organised. Counts are from 2026.</p>
         </header>
@@ -123,12 +129,12 @@
     </section>
 
     <!-- 04 MEDIA -->
-    <section class="section section--tint" id="media">
+    <section class="section section--alt" id="media">
       <div class="wrap">
         <header class="sec-head sec-head--row">
           <div>
             <p class="eyebrow"><span>04</span> Media &amp; visual</p>
-            <h2>Behind the camera</h2>
+            <h2>Behind <em>the camera</em></h2>
           </div>
           <p class="sec-lede" id="media-blurb"></p>
         </header>
@@ -141,6 +147,20 @@
       </div>
     </section>
 
+    <!-- 05 FILMS -->
+    <section class="section" id="films">
+      <div class="wrap">
+        <header class="sec-head sec-head--row">
+          <div>
+            <p class="eyebrow"><span>05</span> Films</p>
+            <h2>Videos I've <em>worked on</em></h2>
+          </div>
+          <p class="sec-lede">Event and feature videos. Press play. They stream from Google Drive and load only when you start them.</p>
+        </header>
+        <div class="films" id="film-list"></div>
+      </div>
+    </section>
+
     <!-- AUDIO (hidden when empty) -->
     <section class="section" id="audio">
       <div class="wrap">
@@ -149,12 +169,12 @@
       </div>
     </section>
 
-    <!-- 05 EXPERIENCE -->
-    <section class="section" id="experience">
+    <!-- 06 EXPERIENCE -->
+    <section class="section section--alt" id="experience">
       <div class="wrap">
         <header class="sec-head">
-          <p class="eyebrow"><span>05</span> Experience</p>
-          <h2>Career record</h2>
+          <p class="eyebrow"><span>06</span> Experience</p>
+          <h2>Career <em>record</em></h2>
         </header>
         <ol class="timeline" id="timeline"></ol>
         <div class="grid-2 edu-wrap">
@@ -170,8 +190,8 @@
     <!-- CONTACT -->
     <section class="contact" id="contact">
       <div class="wrap">
-        <p class="eyebrow eyebrow--light">Contact</p>
-        <h2 class="contact__title">Let's work <span class="outline">together.</span></h2>
+        <p class="eyebrow eyebrow--center">Contact</p>
+        <h2 class="contact__title">Let's work <em>together.</em></h2>
         <p class="contact__sub">Open to finance and administration roles, and to photography and video work.</p>
         <a class="btn btn--light btn--large" id="email-btn" href="#">Email me</a>
         <ul class="contact__links" id="contact-links"></ul>
@@ -195,5 +215,6 @@
 
   <script src="content.js"></script>
   <script src="script.js"></script>
+  <script src="hero.js"></script>
 </body>
 </html>

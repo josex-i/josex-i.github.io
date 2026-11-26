@@ -60,6 +60,46 @@
       <div class="tags">${(e.tools || []).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
     </article>`).join(""));
 
+  /* ----- dashboard pieces for each case study ----- */
+  const D = C.dashboards || {};
+  const nf = (n) => Number(n).toLocaleString("en-US");
+  function meterHTML(m) {
+    const fill = Math.min(m.pct, 100);
+    const over = m.pct > 100;
+    return `<div class="card meter">
+      <div class="card__head"><span>${esc(m.label)}</span><b>${m.pct}%</b></div>
+      <div class="meter__track" role="img" aria-label="${esc(m.label)}: ${m.pct}%">
+        <i style="width:${fill}%"></i>${over ? `<em class="meter__over">+${(m.pct - 100).toFixed(1)}% over target</em>` : ""}
+      </div>
+      <div class="card__foot">${esc(m.note || "")}</div>
+    </div>`;
+  }
+  function barsHTML(b) {
+    const max = Math.max(...b.data.map((d) => d[1]));
+    const cols = b.data.map(([label, v]) => {
+      const h = Math.max(2, (v / max) * 100);
+      const val = (b.unit ? b.unit + " " : "") + nf(v);
+      return `<div class="bar" data-tip="${esc(label)}: ${esc(val)}" tabindex="0" aria-label="${esc(label)}: ${esc(val)}">
+        <span class="bar__val">${v === max ? esc(val) : ""}</span>
+        <i style="height:${h}%"></i>
+        <span class="bar__label">${esc(label)}</span>
+      </div>`;
+    }).join("");
+    const table = `<table class="sr-only"><caption>${esc(b.title)}</caption>${b.data.map(([l, v]) => `<tr><th>${esc(l)}</th><td>${nf(v)}</td></tr>`).join("")}</table>`;
+    return `<div class="card bars-card">
+      <div class="card__head"><span>${esc(b.title)}</span>${b.unit ? `<small>${esc(b.unit)}</small>` : ""}</div>
+      <div class="bars" style="--n:${b.data.length}">${cols}</div>${table}
+    </div>`;
+  }
+  function dashHTML(code) {
+    const d = D[code]; if (!d) return "";
+    const kpis = (d.kpis || []).map(([v, l]) => `<div class="kpi"><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("");
+    return `<div class="dashboard">
+      <div class="kpis" style="--k:${(d.kpis || []).length}">${kpis}</div>
+      ${(d.meter || d.bars) ? `<div class="viz-row${d.meter && d.bars ? " viz-row--2" : ""}">${d.meter ? meterHTML(d.meter) : ""}${d.bars ? barsHTML(d.bars) : ""}</div>` : ""}
+    </div>`;
+  }
+
   /* ----- case studies ledger ----- */
   html("#toolkit-list", (C.caseStudies || []).map((t, i) => `
     <div class="tk">
@@ -70,6 +110,7 @@
         <span class="tk__chev" aria-hidden="true">+</span>
       </button>
       <div class="tk__body" id="tk-${i}" hidden>
+        ${dashHTML(t.code)}
         <div class="cs">
           <div class="cs__col">
             <h4>The problem</h4><p>${esc(t.problem)}</p>
@@ -83,6 +124,38 @@
         ${t.exhibit ? `<figure class="exhibit"><a href="${esc(t.exhibit)}" target="_blank" rel="noopener"><img src="${esc(t.exhibit)}" alt="${esc(t.exhibitCaption)}" loading="lazy"></a><figcaption><b>Exhibit</b> · ${esc(t.exhibitCaption)}</figcaption></figure>` : ""}
       </div>
     </div>`).join(""));
+  /* hover / focus tooltip for the bar charts */
+  const tip = $("#viz-tip");
+  function showTip(el) {
+    if (!tip || !el?.dataset.tip) return;
+    tip.textContent = el.dataset.tip; tip.hidden = false;
+    const r = el.querySelector("i").getBoundingClientRect(), host = $("#toolkits").getBoundingClientRect();
+    tip.style.left = (r.left + r.width / 2 - host.left) + "px";
+    tip.style.top = (r.top - host.top - 10) + "px";
+  }
+  const hideTip = () => { if (tip) tip.hidden = true; };
+  $("#toolkit-list").addEventListener("pointerover", (e) => showTip(e.target.closest(".bar")));
+  $("#toolkit-list").addEventListener("pointerout", (e) => { if (e.target.closest(".bar")) hideTip(); });
+  $("#toolkit-list").addEventListener("focusin", (e) => showTip(e.target.closest(".bar")));
+  $("#toolkit-list").addEventListener("focusout", hideTip);
+
+  /* ----- films (Google Drive, loaded only when played) ----- */
+  const films = C.films || [];
+  if (!films.length) { $("#films")?.remove(); $('a[href="#films"]')?.remove(); }
+  html("#film-list", films.map((f) => `
+    <article class="film">
+      <button class="film__frame" data-id="${esc(f.id)}" aria-label="Play ${esc(f.title)}">
+        <img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(f.id)}&sz=w1000" alt="" loading="lazy" onerror="this.remove()">
+        <span class="film__play" aria-hidden="true">▶</span>
+      </button>
+      <div class="film__meta"><h3>${esc(f.title)}</h3><p>${esc(f.note || "")}</p>
+        <a href="https://drive.google.com/file/d/${encodeURIComponent(f.id)}/view" target="_blank" rel="noopener">Open in Drive ↗</a></div>
+    </article>`).join(""));
+  $("#film-list")?.addEventListener("click", (e) => {
+    const b = e.target.closest(".film__frame"); if (!b) return;
+    b.outerHTML = `<div class="film__frame"><iframe src="https://drive.google.com/file/d/${encodeURIComponent(b.dataset.id)}/preview" allow="autoplay; fullscreen" allowfullscreen title="${esc(b.getAttribute("aria-label"))}"></iframe></div>`;
+  });
+
   html("#further", (C.furtherWork || []).map((f) => `<div class="control"><b class="plain">${esc(f.title)}</b><span>${esc(f.text)}</span><em class="fig">${esc(f.figure)}</em></div>`).join(""));
   html("#workbooks-note", esc(C.workbooksNote));
   html("#languages", C.languages ? `<b>Languages:</b> ${esc(C.languages)}` : "");
@@ -198,6 +271,9 @@
     nameEl.style.fontSize = Math.min(100 * avail / natural * 0.995, 260) + "px";
   }
   fitName();
+  const navEl = $(".nav");
+  const onScroll = () => navEl?.classList.toggle("is-scrolled", scrollY > 40);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
   addEventListener("resize", fitName);
   document.fonts?.ready.then(fitName);
 
