@@ -13,7 +13,7 @@
   <meta property="og:type" content="profile" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -118,14 +118,21 @@
     </section>
 
     <!-- 03 ADMINISTRATION -->
-    <section class="section" id="administration">
+    <section class="section office" id="administration">
       <div class="wrap">
-        <header class="sec-head sec-head--row">
+        <header class="office__head">
+          <svg class="office__emblem" viewBox="0 0 64 80" aria-hidden="true">
+            <path d="M6 78V32a26 26 0 0 1 52 0v46" fill="none" stroke="currentColor" stroke-width="2.2"/>
+            <path d="M14 78V34a18 18 0 0 1 36 0v44" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+            <path d="M32 70C20 58 20 42 32 30c12 12 12 28 0 40Z" fill="currentColor" opacity=".9"/>
+            <path d="M32 72V36" stroke="#E8DCCA" stroke-width="1.2"/>
+          </svg>
           <div>
             <p class="eyebrow"><span>03</span> Administration</p>
             <h2>The office <em>behind the altar</em></h2>
+            <p class="office__lede">Correspondence, registers, procurement and visitors: the quiet, careful work that keeps a busy parish in order. Counts are from 2026.</p>
           </div>
-          <p class="sec-lede">Correspondence, registers, procurement and visitors: the work that keeps a busy parish organised. Counts are from 2026.</p>
+          <div class="seal" aria-hidden="true"><span>JO</span><small>Kibuye · Office</small></div>
         </header>
         <ul class="admin" id="admin-list"></ul>
         <div class="also" id="admin-also"></div>
@@ -133,7 +140,7 @@
     </section>
 
     <!-- 04 MEDIA -->
-    <section class="section section--alt" id="media">
+    <section class="section studio" id="media">
       <div class="wrap">
         <header class="sec-head sec-head--row">
           <div>
@@ -145,7 +152,19 @@
         <div id="media-feature"></div>
         <h3 class="sub" id="av-title"></h3>
         <div class="av-grid" id="av-grid"></div>
-        <h3 class="sub">Web &amp; photography</h3>
+        <div class="archive" id="av-archive"></div>
+      </div>
+    </section>
+
+    <section class="section natural" id="photography">
+      <div class="wrap">
+        <header class="sec-head sec-head--row">
+          <div>
+            <p class="eyebrow"><span>05</span> Web &amp; photography</p>
+            <h2>Light, stone <em>&amp; detail</em></h2>
+          </div>
+          <p class="sec-lede">The cathedral I work in, seen slowly: its grotto, statues, sanctuary and light. Plus the website I built for it.</p>
+        </header>
         <div class="projects" id="projects"></div>
         <div class="gallery" id="gallery"></div>
       </div>
@@ -156,7 +175,7 @@
       <div class="wrap">
         <header class="sec-head sec-head--row">
           <div>
-            <p class="eyebrow"><span>05</span> Films</p>
+            <p class="eyebrow"><span>06</span> Films</p>
             <h2>Videos I've <em>worked on</em></h2>
           </div>
           <p class="sec-lede">Event and feature videos. Press play. They stream from Google Drive and load only when you start them.</p>
@@ -177,7 +196,7 @@
     <section class="section section--alt" id="experience">
       <div class="wrap">
         <header class="sec-head">
-          <p class="eyebrow"><span>06</span> Experience</p>
+          <p class="eyebrow"><span>07</span> Experience</p>
           <h2>Career <em>record</em></h2>
         </header>
         <ol class="timeline" id="timeline"></ol>

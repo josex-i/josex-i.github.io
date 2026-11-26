@@ -230,6 +230,14 @@ const CONTENT = {
     feature: "assets/photos/on-set-01.jpg",
   },
 
+  /* From the archive: shown as a two-photo spread under the desk photos */
+  avArchive: {
+    title: "From the archive",
+    date: "21 March 2021",
+    caption: "In the old control room with a colleague: running the mixer and projecting the hymn lyrics live during Mass.",
+    photos: ["assets/av/control-room-2021-a.jpg", "assets/av/control-room-2021-b.jpg"],
+  },
+
   /* The cathedral's sound & video desk (shown as captioned cards) */
   avTitle: "The sound & video desk I run",
   avPhotos: [

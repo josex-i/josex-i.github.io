@@ -203,10 +203,16 @@
   /* AV cards + gallery share one lightbox */
   const gallery = C.photos || [];
   const photos = av.concat(gallery);
+  const pad = (n) => String(n).padStart(2, "0");
   html("#av-grid", av.map((p, i) => `
     <button class="av-card" data-i="${i}" aria-label="Open photo: ${esc(p.caption)}">
-      <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"><span>${esc(p.caption)}</span>
+      <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"><span><em>${pad(i + 1)} / ${pad(av.length)}</em>${esc(p.caption)}</span>
     </button>`).join(""));
+  const A = C.avArchive;
+  html("#av-archive", A && A.photos?.length ? `
+    <div class="archive__head"><h3>${esc(A.title)}</h3><span>${esc(A.date)}</span></div>
+    <div class="archive__pair">${A.photos.map((src, i) => `<figure><img src="${esc(src)}" alt="${esc(A.caption)}" loading="lazy"></figure>`).join("")}</div>
+    <p class="archive__caption">${esc(A.caption)}</p>` : "");
   html("#gallery", gallery.map((p, i) => `
     <button data-i="${av.length + i}" aria-label="Open photo: ${esc(p.caption)}">
       <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"><span>${esc(p.caption)}</span>
@@ -288,6 +294,12 @@
     toggle.setAttribute("aria-expanded", open); menu.classList.toggle("is-open", open);
   });
   menu.addEventListener("click", (e) => { if (e.target.closest("a")) { toggle.setAttribute("aria-expanded", "false"); menu.classList.remove("is-open"); } });
+
+  /* ----- cinematic "focus pull": photos sharpen as they scroll into view ----- */
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const fo = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in-focus"); fo.unobserve(en.target); } }), { threshold: 0.35 });
+    document.querySelectorAll(".natural .gallery button, .natural .project__media, .archive figure").forEach((el) => { el.classList.add("focus-pull"); fo.observe(el); });
+  }
 
   /* ----- reveal on scroll + active nav link ----- */
   if ("IntersectionObserver" in window) {
