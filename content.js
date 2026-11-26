@@ -11,6 +11,10 @@ const CONTENT = {
   /* ---------- 1. ABOUT YOU ---------- */
   name: "Joseph Omondi Otieno",
   initials: "JO",
+  heroFirst: "JOSEPH",          // big outlined word at the top
+  heroLast: "OTIENO",           // big solid word at the top
+  heroRole: "Finance & Administration",
+  heroLine: "Counting, banking, reconciling and reporting a cathedral's money, with Excel toolkits I designed to keep every figure right.",
   role: "Bookkeeper / Treasurer · Administrative Secretary",
   headline: "I keep a cathedral's money counted, banked, reconciled and reported, to the shilling.",
   intro:
@@ -19,7 +23,7 @@ const CONTENT = {
     "I count the parish's cash, prepare all of its financial reports and design the Excel toolkits that keep the figures right. " +
     "CAMS graduate (KASNEB) with QuickBooks experience.",
   location: "Kisumu, Kenya",
-  portrait: "assets/photos/headshot.jpg",
+  portrait: "assets/photos/headshot-cutout.png",   // transparent background version
   cv: "",                       // put a CV PDF in assets/docs and write e.g. "assets/docs/Joseph-Omondi-Otieno-CV.pdf"
   availability: "Open to finance & administration roles",
 

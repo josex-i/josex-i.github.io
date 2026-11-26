@@ -12,107 +12,110 @@
   <meta property="og:type" content="profile" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <!-- Market-style ticker -->
-  <div class="ticker" aria-hidden="true"><div class="ticker__track" id="ticker"></div></div>
-
   <header class="nav" id="top">
     <div class="wrap nav__inner">
-      <a href="#top" class="brand"><span class="brand__mark" data-bind="initials"></span><span data-bind="name"></span></a>
-      <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
-      <nav id="menu" class="nav__menu">
-        <a href="#profile">Profile</a>
-        <a href="#toolkits">Toolkits</a>
+      <p class="pill pill--status"><span class="dot"></span><span data-bind="availability"></span></p>
+      <a href="#top" class="brand"><span data-bind="initials"></span></a>
+      <nav id="menu" class="nav__menu" aria-label="Main">
+        <a href="#toolkits">Case studies <sup data-count="caseStudies"></sup></a>
         <a href="#administration">Administration</a>
         <a href="#media">Media</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact" class="btn btn--small">Contact</a>
+        <a href="#experience">Experience <sup>[7y+]</sup></a>
+        <a href="#contact">Contact</a>
       </nav>
+      <a href="#contact" class="btn btn--dark nav__cta">Let's talk <span aria-hidden="true">↗</span></a>
+      <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
     </div>
   </header>
 
   <main id="main">
     <!-- HERO -->
     <section class="hero">
-      <div class="wrap hero__grid">
-        <div class="hero__text">
-          <p class="kicker"><span class="dot"></span><span data-bind="availability"></span></p>
-          <h1 class="hero__name" data-bind="name"></h1>
-          <p class="hero__role" data-bind="role"></p>
-          <p class="hero__headline" data-bind="headline"></p>
-          <p class="hero__intro" data-bind="intro"></p>
+      <div class="wrap">
+        <h1 class="hero__name" aria-label="Joseph Omondi Otieno">
+          <span class="outline" data-bind="heroFirst"></span>
+          <span class="solid" data-bind="heroLast"></span>
+        </h1>
+      </div>
+      <div class="wrap hero__stage">
+        <div class="hero__left">
+          <h2 class="hero__role" data-bind="heroRole"></h2>
+          <p class="hero__line" data-bind="heroLine"></p>
           <div class="hero__cta">
-            <a href="#toolkits" class="btn btn--gold">See the toolkits</a>
-            <a href="#" class="btn btn--line" id="cv-link" download>Download CV</a>
+            <a href="#toolkits" class="btn btn--dark">See my work <span aria-hidden="true">↗</span></a>
+            <a href="#" class="btn btn--ghost" id="cv-link" download>Download CV</a>
           </div>
         </div>
         <figure class="hero__portrait" id="portrait"></figure>
+        <ul class="hero__socials" id="socials" aria-label="Find me online"></ul>
       </div>
-      <div class="wrap">
-        <dl class="keyfigs" id="stats"></dl>
-      </div>
+    </section>
+
+    <!-- KEY FIGURES -->
+    <section class="figures">
+      <div class="wrap"><dl class="keyfigs" id="stats"></dl></div>
     </section>
 
     <!-- 01 PROFILE -->
     <section class="section" id="profile">
-      <div class="wrap grid-2">
+      <div class="wrap">
         <header class="sec-head">
-          <span class="sec-num">01</span>
-          <p class="eyebrow">Profile</p>
-          <h2>Numbers, order and a creative eye</h2>
+          <p class="eyebrow"><span>01</span> About</p>
+          <h2>Clear numbers. Calm office. <span class="soft">Honest reports.</span></h2>
         </header>
-        <div>
+        <div class="grid-2">
+          <p class="lead" data-bind="intro"></p>
           <div class="prose" id="about-text"></div>
-          <div class="competencies" id="expertise-cards"></div>
         </div>
+        <div class="competencies" id="expertise-cards"></div>
       </div>
     </section>
 
-    <!-- 02 TOOLKITS -->
-    <section class="section section--ink" id="toolkits">
+    <!-- 02 CASE STUDIES -->
+    <section class="section section--tint" id="toolkits">
       <div class="wrap">
         <header class="sec-head sec-head--row">
           <div>
-            <span class="sec-num">02</span>
-            <p class="eyebrow">Case studies · Financial systems</p>
-            <h2>The toolkits that run a cathedral's finances</h2>
+            <p class="eyebrow"><span>02</span> Selected work</p>
+            <h2>Toolkits that run a cathedral's finances</h2>
           </div>
-          <p class="sec-lede">My specification, built with Claude AI, tested against real cash and bank records, and run by me every week. Each one replaced a pile of hand-built documents with a single searchable workbook. <em>Figures as at 13 October 2026. Click a row to open the case study.</em></p>
+          <p class="sec-lede">My specification, built with Claude AI, tested against real cash and bank records, and run by me every week. <em>Figures as at 13 October 2026. Click a row to open it.</em></p>
         </header>
 
-        <div class="flow" aria-label="How every toolkit works">
-          <div class="flow__step"><b>1</b><span>Count &amp; enter</span><small>by denomination, by Mass, by payee</small></div>
-          <div class="flow__step"><b>2</b><span>Bank</span><small>deposit slip, cheque or Paybill</small></div>
-          <div class="flow__step"><b>3</b><span>Reconcile</span><small>count vs. bank vs. statement</small></div>
-          <div class="flow__step"><b>4</b><span>Check</span><small>automatic queries &amp; gaps</small></div>
-          <div class="flow__step"><b>5</b><span>Report</span><small>print or PDF, ready to sign</small></div>
+        <div class="flow" aria-label="How the toolkits work">
+          <div class="flow__step"><b>01</b><span>Count &amp; enter</span></div>
+          <div class="flow__step"><b>02</b><span>Bank</span></div>
+          <div class="flow__step"><b>03</b><span>Reconcile</span></div>
+          <div class="flow__step"><b>04</b><span>Check</span></div>
+          <div class="flow__step"><b>05</b><span>Report</span></div>
         </div>
 
-        <div class="ledger-head" aria-hidden="true"><span>No.</span><span>Case study</span><span class="r">Key result</span><span></span></div>
         <div class="ledger" id="toolkit-list"></div>
 
-        <h3 class="sub sub--light">Further toolkits</h3>
-        <div class="further" id="further"></div>
+        <h3 class="sub">Further toolkits</h3>
+        <div class="tiles" id="further"></div>
 
-        <h3 class="sub sub--light">Controls built into the toolkits</h3>
-        <div class="controls" id="controls"></div>
+        <h3 class="sub">Controls built in</h3>
+        <div class="tiles tiles--3" id="controls"></div>
         <p class="note" id="workbooks-note"></p>
       </div>
     </section>
 
     <!-- 03 ADMINISTRATION -->
     <section class="section" id="administration">
-      <div class="wrap grid-2">
-        <header class="sec-head">
-          <span class="sec-num">03</span>
-          <p class="eyebrow">Administration</p>
-          <h2>The office behind the altar</h2>
-          <p class="muted">Correspondence, registers, procurement and visitors: the work that keeps a busy parish organised. Counts below are from 2026.</p>
+      <div class="wrap">
+        <header class="sec-head sec-head--row">
+          <div>
+            <p class="eyebrow"><span>03</span> Administration</p>
+            <h2>The office behind the altar</h2>
+          </div>
+          <p class="sec-lede">Correspondence, registers, procurement and visitors: the work that keeps a busy parish organised. Counts are from 2026.</p>
         </header>
         <ul class="admin" id="admin-list"></ul>
       </div>
@@ -123,13 +126,12 @@
       <div class="wrap">
         <header class="sec-head sec-head--row">
           <div>
-            <span class="sec-num">04</span>
-            <p class="eyebrow">Media &amp; visual</p>
+            <p class="eyebrow"><span>04</span> Media &amp; visual</p>
             <h2>Behind the camera</h2>
           </div>
           <p class="sec-lede" id="media-blurb"></p>
         </header>
-        <div class="media-feature" id="media-feature"></div>
+        <div id="media-feature"></div>
         <div class="projects" id="projects"></div>
         <div class="gallery" id="gallery"></div>
       </div>
@@ -137,7 +139,7 @@
 
     <!-- AUDIO (hidden when empty) -->
     <section class="section" id="audio">
-      <div class="wrap grid-2">
+      <div class="wrap">
         <header class="sec-head"><p class="eyebrow">Audio</p><h2>Listen</h2></header>
         <ul class="tracks" id="tracks"></ul>
       </div>
@@ -145,28 +147,29 @@
 
     <!-- 05 EXPERIENCE -->
     <section class="section" id="experience">
-      <div class="wrap grid-2">
+      <div class="wrap">
         <header class="sec-head">
-          <span class="sec-num">05</span>
-          <p class="eyebrow">Experience</p>
+          <p class="eyebrow"><span>05</span> Experience</p>
           <h2>Career record</h2>
         </header>
-        <div>
-          <ol class="timeline" id="timeline"></ol>
-          <h3 class="sub">Education &amp; certifications</h3>
-          <ul class="edu" id="education"></ul>
-          <p class="langs" id="languages"></p>
+        <ol class="timeline" id="timeline"></ol>
+        <div class="grid-2 edu-wrap">
+          <h3 class="sub sub--flush">Education &amp; certifications</h3>
+          <div>
+            <ul class="edu" id="education"></ul>
+            <p class="langs" id="languages"></p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- CONTACT -->
-    <section class="section section--ink contact" id="contact">
-      <div class="wrap contact__inner">
-        <p class="eyebrow">Contact</p>
-        <h2 class="contact__title">Let's talk numbers.</h2>
-        <p class="muted-light">Open to finance and administration roles, and to photography and video work.</p>
-        <a class="btn btn--gold btn--large" id="email-btn" href="#">Email me</a>
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <p class="eyebrow eyebrow--light">Contact</p>
+        <h2 class="contact__title">Let's work <span class="outline">together.</span></h2>
+        <p class="contact__sub">Open to finance and administration roles, and to photography and video work.</p>
+        <a class="btn btn--light btn--large" id="email-btn" href="#">Email me</a>
         <ul class="contact__links" id="contact-links"></ul>
       </div>
     </section>

@@ -17,7 +17,7 @@
 
   /* ----- ticker (duplicated for a seamless loop) ----- */
   const items = (C.ticker || []).map((t) => `<span>${esc(t)}<i>▲</i></span>`).join("");
-  if (items) html("#ticker", items + items); else $(".ticker").remove();
+  if (items) html("#ticker", items + items); else $(".ticker")?.remove();
 
   /* ----- CV + portrait ----- */
   const cv = $("#cv-link");
@@ -25,6 +25,27 @@
   html("#portrait", C.portrait
     ? `<img src="${esc(C.portrait)}" alt="Portrait of ${esc(C.name)}">`
     : `<div class="initials" aria-hidden="true">${esc(C.initials)}</div>`);
+
+  /* ----- social pills (hero) + nav counts ----- */
+  const K = C.contact || {};
+  const ICON = {
+    linkedin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"/></svg>',
+    youtube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="5" width="19" height="14" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></svg>',
+    email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
+  };
+  const socials = [
+    K.linkedin && ["LinkedIn", K.linkedin, ICON.linkedin],
+    K.youtube && ["YouTube", K.youtube, ICON.youtube],
+    K.email && ["Email", `mailto:${K.email}`, ICON.email],
+    K.phone && ["Call", `tel:${K.phone.replace(/\s/g, "")}`, ICON.phone],
+  ].filter(Boolean);
+  html("#socials", socials.map(([label, href, icon]) =>
+    `<li><a class="pill pill--link" href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>${icon}<span>${esc(label)}</span></a></li>`).join(""));
+  document.querySelectorAll("[data-count]").forEach((el) => {
+    const n = (C[el.dataset.count] || []).length;
+    el.textContent = n ? `[${String(n).padStart(2, "0")}]` : "";
+  });
 
   /* ----- key figures ----- */
   html("#stats", (C.stats || []).map((s) => `<div><dt>${esc(s.value)}</dt><dd>${esc(s.label)}</dd></div>`).join(""));
@@ -153,6 +174,23 @@
   ].filter(Boolean);
   html("#contact-links", links.map(([href, text]) =>
     href ? `<li><a href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>${esc(text)}</a></li>` : `<li class="plain">${esc(text)}</li>`).join(""));
+
+  /* ----- make the big hero name fill the width exactly ----- */
+  const nameEl = $(".hero__name");
+  function fitName() {
+    if (!nameEl) return;
+    const stacked = getComputedStyle(nameEl).flexDirection === "column";
+    nameEl.style.fontSize = "100px";
+    const words = [...nameEl.children];
+    const widths = words.map((w) => w.getBoundingClientRect().width);
+    const gap = parseFloat(getComputedStyle(nameEl).columnGap) || 0;
+    const natural = stacked ? Math.max(...widths) : widths.reduce((a, b) => a + b, 0) + gap * (words.length - 1);
+    const avail = nameEl.clientWidth;
+    nameEl.style.fontSize = Math.min(100 * avail / natural * 0.995, 260) + "px";
+  }
+  fitName();
+  addEventListener("resize", fitName);
+  document.fonts?.ready.then(fitName);
 
   /* ----- mobile menu ----- */
   const toggle = $(".nav__toggle"), menu = $("#menu");
