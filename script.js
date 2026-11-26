@@ -100,13 +100,17 @@
 
   /* ----- administration ----- */
   html("#admin-list", (C.admin || []).map((a) => `<li class="reveal"><b>${esc(a.value)}</b><span>${esc(a.label)}</span></li>`).join(""));
+  html("#admin-also", (C.adminAlso || []).length ? `<span class="also__label">Also:</span>` + C.adminAlso.map((t) => `<span class="tag">${esc(t)}</span>`).join("") : "");
 
   /* ----- media ----- */
   const M = C.media || {};
   const yt = (C.contact || {}).youtube;
   html("#media-blurb", esc(M.blurb) + (yt ? `<br><a class="btn btn--small" style="margin-top:1rem" href="${esc(yt)}" target="_blank" rel="noopener">Watch my videos on YouTube ↗</a>` : ""));
   html("#media-feature", M.feature
-    ? `<figure class="media-feature"><img src="${esc(M.feature)}" alt="On set filming a liturgical celebration" loading="lazy"><figcaption><b>${esc(M.company)}</b> · on set</figcaption></figure>` : "");
+    ? `<figure class="media-feature"><img src="${esc(M.feature)}" alt="On set filming a liturgical celebration" loading="lazy"><figcaption><b>${esc(M.company)}</b>${M.featureNote ? ` · ${esc(M.featureNote)}` : ""}</figcaption></figure>` : "");
+  const av = C.avPhotos || [];
+  html("#av-title", av.length ? esc(C.avTitle || "") : "");
+  if (!av.length) $("#av-title")?.remove();
   html("#projects", (C.projects || []).map((p) => `
     <article class="project">
       <div class="project__media">${p.image ? `<img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy">` : ""}</div>
@@ -119,16 +123,21 @@
       </div>
     </article>`).join(""));
 
-  /* gallery + lightbox */
-  const photos = C.photos || [];
-  html("#gallery", photos.map((p, i) => `
-    <button data-i="${i}" aria-label="Open photo: ${esc(p.caption)}">
+  /* AV cards + gallery share one lightbox */
+  const gallery = C.photos || [];
+  const photos = av.concat(gallery);
+  html("#av-grid", av.map((p, i) => `
+    <button class="av-card" data-i="${i}" aria-label="Open photo: ${esc(p.caption)}">
+      <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"><span>${esc(p.caption)}</span>
+    </button>`).join(""));
+  html("#gallery", gallery.map((p, i) => `
+    <button data-i="${av.length + i}" aria-label="Open photo: ${esc(p.caption)}">
       <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"><span>${esc(p.caption)}</span>
     </button>`).join(""));
   const lb = $("#lightbox"), lbImg = $("img", lb), lbCap = $("figcaption", lb);
   let cur = 0;
   const show = (i) => { cur = (i + photos.length) % photos.length; lbImg.src = photos[cur].src; lbImg.alt = photos[cur].caption; lbCap.textContent = photos[cur].caption; };
-  $("#gallery").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; show(+b.dataset.i); lb.showModal(); });
+  ["#gallery", "#av-grid"].forEach((sel) => $(sel)?.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; show(+b.dataset.i); lb.showModal(); }));
   $(".lightbox__close", lb).onclick = () => lb.close();
   $(".lightbox__prev", lb).onclick = () => show(cur - 1);
   $(".lightbox__next", lb).onclick = () => show(cur + 1);

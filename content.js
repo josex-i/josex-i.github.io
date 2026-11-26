@@ -178,18 +178,36 @@ const CONTENT = {
   /* Administration highlights (counts only, no personal data) */
   admin: [
     { value: "40", label: "Sunday & feast-day announcements written in 2026" },
+    { value: "16", label: "Recommendation letters: schools, universities, banks, SACCOs and sponsors" },
+    { value: "11", label: "Sets of meeting minutes: councils, associations, choir and Small Christian Communities" },
     { value: "19", label: "Marriage files in 2026: banns, registers & letters to the Attorney" },
+    { value: "3", label: "Sacrament ceremonies prepared in November 2026: adult baptism, First Holy Communion and confirmation (candidate lists, budgets and reports)" },
+    { value: "2026", label: "ADOK parish & deanery elections: election forms, guidelines and returns" },
     { value: "27", label: "Contractor quotations registered for the 2026 renovation works" },
     { value: "43", label: "Market stalls on the rent register I built" },
     { value: "3", label: "Countries' bishops hosted (Uganda, Rwanda, Nigeria), plus the Apostolic Nuncio" },
   ],
+  adminAlso: ["Death announcements to neighbouring parishes", "Harambee invitation letters & guest register", "Bank signatory change letters", "Holy Week & Corpus Christi programmes", "Department handover reports", "Catechist programmes & allowances"],
 
   /* ---------- 5. MEDIA & VISUAL ---------- */
   media: {
-    company: "Head of AV / ICT · since 2019",
-    blurb: "I lead audio-visual production for five Sunday Masses at the cathedral, including nine months of outdoor worship under tents during the 2025 construction, and I cover events on camera.",
+    company: "Assistant camera operator",
+    featureNote: "capturing a live liturgical event for editing, April 2022",
+    blurb: "I started behind the camera as an assistant camera operator, capturing live events for the edit. Today I run the cathedral's sound and video desk for Sunday Masses and big celebrations, and I cover live liturgies on camera.",
     feature: "assets/photos/on-set-01.jpg",
   },
+
+  /* The cathedral's sound & video desk (shown as captioned cards) */
+  avTitle: "The sound & video desk I run",
+  avPhotos: [
+    { src: "assets/av/live-coverage.jpg", caption: "Covering a live liturgy celebrated by the Archdiocese of Kisumu's priests and two bishops" },
+    { src: "assets/av/sound-desk.jpg", caption: "At the desk: Midas M32 digital console and the TASSO equipment rack" },
+    { src: "assets/av/midas-console.jpg", caption: "Midas M32 digital mixing console" },
+    { src: "assets/av/midas-rear.jpg", caption: "Rear of the Midas M32: microphone inputs and speaker outputs" },
+    { src: "assets/av/equipment-rack.jpg", caption: "TASSO wireless-mic receivers, MagnImage LED screen processor, 8-channel power control and DSP controller" },
+    { src: "assets/av/amplifiers.jpg", caption: "Three TASSO PA3250 four-channel amplifiers driving the cathedral speakers" },
+    { src: "assets/av/team.jpg", caption: "With the TASSO engineers, a colleague and the contractor in the control room" },
+  ],
   projects: [
     {
       title: "St. Theresa's Cathedral Website",
@@ -201,13 +219,13 @@ const CONTENT = {
     },
   ],
   photos: [
-    { src: "assets/photos/on-set-02.jpg", caption: "Covering a liturgical celebration, April 2022" },
-    { src: "assets/photos/photo-01.jpg", caption: "Architecture study" },
-    { src: "assets/photos/photo-04.jpg", caption: "Light and form" },
+    { src: "assets/photos/on-set-02.jpg", caption: "Assistant camera operator at a live liturgical event, April 2022" },
+    { src: "assets/photos/photo-01.jpg", caption: "The Marian grotto" },
+    { src: "assets/photos/photo-04.jpg", caption: "Statue of the Baptism of Jesus" },
     { src: "assets/photos/on-set-03.jpg", caption: "Behind the camera, April 2022" },
     { src: "assets/photos/photo-02.jpg", caption: "St. Theresa's Cathedral, Kibuye" },
-    { src: "assets/photos/photo-05.jpg", caption: "Detail" },
-    { src: "assets/photos/photo-06.jpg", caption: "Cathedral interior" },
+    { src: "assets/photos/photo-05.jpg", caption: "The church chandelier" },
+    { src: "assets/photos/photo-06.jpg", caption: "The sanctuary" },
   ],
   audio: [],
 

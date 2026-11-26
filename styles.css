@@ -205,6 +205,21 @@ p { margin: 0 0 1em; }
 .media-feature figcaption { position: absolute; left: 18px; bottom: 18px; background: #fff; border-radius: 999px; padding: 8px 16px; font-size: .84rem; box-shadow: 0 6px 18px rgb(0 0 0 / .12); }
 .media-feature figcaption b { font-weight: 700; }
 @media (max-width: 640px) { .media-feature img { aspect-ratio: 4/3; } }
+.av-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.av-card { display: flex; flex-direction: column; padding: 0; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: #fff; cursor: zoom-in; text-align: left; font: inherit; color: inherit; transition: border-color .2s, transform .2s; }
+.av-card:hover { border-color: var(--ink); transform: translateY(-3px); }
+.av-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.av-card span { padding: 14px 16px 16px; font-size: .88rem; color: var(--ink-2); line-height: 1.45; }
+.av-card:first-child { grid-column: span 2; grid-row: span 2; }
+.av-card:first-child img { aspect-ratio: auto; flex: 1; min-height: 0; }
+.av-card:first-child span { font-size: 1rem; color: var(--ink); font-weight: 600; }
+.av-card:last-child:not(:first-child) { grid-column: 1 / -1; }
+.av-card:last-child:not(:first-child) img { aspect-ratio: 16/6; object-position: center 45%; }
+@media (max-width: 860px) { .av-grid { grid-template-columns: 1fr 1fr; } .av-card:first-child { grid-row: auto; } .av-card:first-child img { aspect-ratio: 16/9; } .av-card:last-child:not(:first-child) img { aspect-ratio: 16/9; } }
+@media (max-width: 520px) { .av-grid { grid-template-columns: 1fr; } .av-card:first-child { grid-column: auto; } .av-card:last-child:not(:first-child) img { aspect-ratio: 4/3; } }
+.also { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 28px; }
+.also__label { font-size: .86rem; font-weight: 700; margin-right: 4px; }
+.also .tag { font-size: .82rem; padding: 6px 13px; border: 1px solid var(--line); background: #fff; }
 .projects { display: grid; gap: 18px; margin-bottom: 18px; }
 .project { display: grid; grid-template-columns: 1.2fr 1fr; background: #fff; border: 1px solid var(--line); border-radius: 24px; overflow: hidden; }
 .project__media { overflow: hidden; background: var(--bg-2); }
