@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio</title>
+  <meta name="description" content="Finance & administration professional: automated Excel/VBA finance toolkits, parish administration, photography and video." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Market-style ticker -->
+  <div class="ticker" aria-hidden="true"><div class="ticker__track" id="ticker"></div></div>
+
+  <header class="nav" id="top">
+    <div class="wrap nav__inner">
+      <a href="#top" class="brand"><span class="brand__mark" data-bind="initials"></span><span data-bind="name"></span></a>
+      <button class="nav__toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
+      <nav id="menu" class="nav__menu">
+        <a href="#profile">Profile</a>
+        <a href="#toolkits">Toolkits</a>
+        <a href="#administration">Administration</a>
+        <a href="#media">Media</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact" class="btn btn--small">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div class="hero__text">
+          <p class="kicker"><span class="dot"></span><span data-bind="availability"></span></p>
+          <h1 class="hero__name" data-bind="name"></h1>
+          <p class="hero__role" data-bind="role"></p>
+          <p class="hero__headline" data-bind="headline"></p>
+          <p class="hero__intro" data-bind="intro"></p>
+          <div class="hero__cta">
+            <a href="#toolkits" class="btn btn--gold">See the toolkits</a>
+            <a href="#" class="btn btn--line" id="cv-link" download>Download CV</a>
+          </div>
+        </div>
+        <figure class="hero__portrait" id="portrait"></figure>
+      </div>
+      <div class="wrap">
+        <dl class="keyfigs" id="stats"></dl>
+      </div>
+    </section>
+
+    <!-- 01 PROFILE -->
+    <section class="section" id="profile">
+      <div class="wrap grid-2">
+        <header class="sec-head">
+          <span class="sec-num">01</span>
+          <p class="eyebrow">Profile</p>
+          <h2>Numbers, order and a creative eye</h2>
+        </header>
+        <div>
+          <div class="prose" id="about-text"></div>
+          <div class="competencies" id="expertise-cards"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 TOOLKITS -->
+    <section class="section section--ink" id="toolkits">
+      <div class="wrap">
+        <header class="sec-head sec-head--row">
+          <div>
+            <span class="sec-num">02</span>
+            <p class="eyebrow">Case studies · Financial systems</p>
+            <h2>The toolkits that run a cathedral's finances</h2>
+          </div>
+          <p class="sec-lede">My specification, built with Claude AI, tested against real cash and bank records, and run by me every week. Each one replaced a pile of hand-built documents with a single searchable workbook. <em>Figures as at 13 October 2026. Click a row to open the case study.</em></p>
+        </header>
+
+        <div class="flow" aria-label="How every toolkit works">
+          <div class="flow__step"><b>1</b><span>Count &amp; enter</span><small>by denomination, by Mass, by payee</small></div>
+          <div class="flow__step"><b>2</b><span>Bank</span><small>deposit slip, cheque or Paybill</small></div>
+          <div class="flow__step"><b>3</b><span>Reconcile</span><small>count vs. bank vs. statement</small></div>
+          <div class="flow__step"><b>4</b><span>Check</span><small>automatic queries &amp; gaps</small></div>
+          <div class="flow__step"><b>5</b><span>Report</span><small>print or PDF, ready to sign</small></div>
+        </div>
+
+        <div class="ledger-head" aria-hidden="true"><span>No.</span><span>Case study</span><span class="r">Key result</span><span></span></div>
+        <div class="ledger" id="toolkit-list"></div>
+
+        <h3 class="sub sub--light">Further toolkits</h3>
+        <div class="further" id="further"></div>
+
+        <h3 class="sub sub--light">Controls built into the toolkits</h3>
+        <div class="controls" id="controls"></div>
+        <p class="note" id="workbooks-note"></p>
+      </div>
+    </section>
+
+    <!-- 03 ADMINISTRATION -->
+    <section class="section" id="administration">
+      <div class="wrap grid-2">
+        <header class="sec-head">
+          <span class="sec-num">03</span>
+          <p class="eyebrow">Administration</p>
+          <h2>The office behind the altar</h2>
+          <p class="muted">Correspondence, registers, procurement and visitors: the work that keeps a busy parish organised. Counts below are from 2026.</p>
+        </header>
+        <ul class="admin" id="admin-list"></ul>
+      </div>
+    </section>
+
+    <!-- 04 MEDIA -->
+    <section class="section section--tint" id="media">
+      <div class="wrap">
+        <header class="sec-head sec-head--row">
+          <div>
+            <span class="sec-num">04</span>
+            <p class="eyebrow">Media &amp; visual</p>
+            <h2>Behind the camera</h2>
+          </div>
+          <p class="sec-lede" id="media-blurb"></p>
+        </header>
+        <div class="media-feature" id="media-feature"></div>
+        <div class="projects" id="projects"></div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+    </section>
+
+    <!-- AUDIO (hidden when empty) -->
+    <section class="section" id="audio">
+      <div class="wrap grid-2">
+        <header class="sec-head"><p class="eyebrow">Audio</p><h2>Listen</h2></header>
+        <ul class="tracks" id="tracks"></ul>
+      </div>
+    </section>
+
+    <!-- 05 EXPERIENCE -->
+    <section class="section" id="experience">
+      <div class="wrap grid-2">
+        <header class="sec-head">
+          <span class="sec-num">05</span>
+          <p class="eyebrow">Experience</p>
+          <h2>Career record</h2>
+        </header>
+        <div>
+          <ol class="timeline" id="timeline"></ol>
+          <h3 class="sub">Education &amp; certifications</h3>
+          <ul class="edu" id="education"></ul>
+          <p class="langs" id="languages"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section section--ink contact" id="contact">
+      <div class="wrap contact__inner">
+        <p class="eyebrow">Contact</p>
+        <h2 class="contact__title">Let's talk numbers.</h2>
+        <p class="muted-light">Open to finance and administration roles, and to photography and video work.</p>
+        <a class="btn btn--gold btn--large" id="email-btn" href="#">Email me</a>
+        <ul class="contact__links" id="contact-links"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span>© <span id="year"></span> <span data-bind="name"></span> · <span data-bind="location"></span></span>
+      <a href="#top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+    <button class="lightbox__close" aria-label="Close">×</button>
+    <button class="lightbox__nav lightbox__prev" aria-label="Previous photo">‹</button>
+    <figure><img alt="" /><figcaption></figcaption></figure>
+    <button class="lightbox__nav lightbox__next" aria-label="Next photo">›</button>
+  </dialog>
+
+  <script src="content.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
