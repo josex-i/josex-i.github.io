@@ -78,6 +78,25 @@
       <div class="tags">${(e.tools || []).map((t) => `<span class="tag">${esc(t)}</span>`).join("")}</div>
     </article>`).join(""));
 
+  /* ----- marble statue (full site only); its plinth words open the versions ----- */
+  const ST = C.statue, stEl = $("#statue");
+  if (ST && stEl && !V) {
+    const words = ST.words || [];
+    stEl.innerHTML = `
+      <div class="statue__frame">
+        <img src="${esc(ST.src)}" alt="${esc(ST.caption)}" loading="lazy" width="880" height="1100">
+        ${words.map((w) => `<a class="statue__hot" href="${esc(w.href)}" style="left:${w.x}%;top:${w.y}%;width:${w.w}%;height:${w.h}%" aria-label="${esc(w.label)}"></a>`).join("")}
+      </div>
+      <figcaption>
+        <p class="eyebrow"><span>✦</span> In one picture</p>
+        <h3>${esc(ST.title)}</h3>
+        <p class="statue__cap">${esc(ST.caption)}</p>
+        <p class="statue__hint">Choose a word on the plinth to see that side of my work:</p>
+        <div class="statue__words">${words.map((w) => `<a href="${esc(w.href)}">${esc(w.label)}</a>`).join("")}</div>
+      </figcaption>`;
+    stEl.hidden = false;
+  } else stEl?.remove();
+
   /* ----- dashboard pieces for each case study ----- */
   const D = C.dashboards || {};
   const nf = (n) => Number(n).toLocaleString("en-US");

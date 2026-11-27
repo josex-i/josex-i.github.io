@@ -707,3 +707,21 @@ p { margin: 0 0 1em; }
 .version-note .wrap { display: flex; justify-content: space-between; align-items: center; gap: 10px 24px; flex-wrap: wrap; padding: 16px 0; }
 .version-note a { color: #e6ecff; text-decoration: none; border: 1px solid rgb(122 162 255 / .35); border-radius: 999px; padding: 6px 14px; transition: background .2s; }
 .version-note a:hover { background: rgb(122 162 255 / .15); }
+
+/* =====================================================================
+   ABOUT · MARBLE STATUE with plinth-word links (full site only)
+   ===================================================================== */
+.statue { margin: 14px 0 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(22px, 4vw, 56px); align-items: center; padding: clamp(18px, 3vw, 36px); border: 1px solid var(--line); border-radius: 24px;
+  background: radial-gradient(80% 90% at 20% 30%, rgb(232 220 202 / .08), transparent 60%), #0a0a0b; }
+.statue__frame { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px -25px rgb(0 0 0 / .8); }
+.statue__frame img { width: 100%; height: auto; }
+.statue__hot { position: absolute; border-radius: 6px; transition: background .25s, box-shadow .25s; }
+.statue__hot:hover, .statue__hot:focus-visible { background: rgb(214 178 110 / .22); box-shadow: 0 0 0 1px rgb(214 178 110 / .9), 0 0 24px rgb(214 178 110 / .55); outline: none; }
+.statue figcaption .eyebrow span { color: #d6b26e; border-color: rgb(214 178 110 / .4); }
+.statue h3 { font: 400 clamp(2rem, 3.6vw, 3.2rem)/1.05 var(--serif); margin-bottom: .4em; }
+.statue__cap { color: var(--ink-2); font: italic 400 1.1rem/1.45 var(--serif); }
+.statue__hint { color: var(--ink-3); font-size: .86rem; margin: 1.4em 0 .8em; }
+.statue__words { display: flex; flex-wrap: wrap; gap: 8px; }
+.statue__words a { text-decoration: none; font: 500 .78rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #efe6d6; border: 1px solid rgb(214 178 110 / .45); border-radius: 999px; padding: 8px 14px; transition: background .2s, color .2s; }
+.statue__words a:hover, .statue__words a:focus-visible { background: #d6b26e; color: #14100a; }
+@media (max-width: 860px) { .statue { grid-template-columns: 1fr; } .statue__frame { max-width: 520px; } }

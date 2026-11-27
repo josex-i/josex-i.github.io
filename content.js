@@ -49,6 +49,21 @@ const CONTENT = {
     "ARREARS MADE VISIBLE KSh 1,230,500", "DOUBLE COUNT PREVENTED KSh 224,880", "TOOLKITS IN USE 15",
   ],
 
+  /* The marble statue in About (full site only). Each word opens a version;
+     x, y, w, h = where the word sits on the picture, in % (only change these if you change the picture). */
+  statue: {
+    src: "assets/art/marble-statue.jpg",
+    title: "Everything I do, in one picture",
+    caption: "AI-generated artwork of my five fields: service, administration, finance, media and faith.",
+    words: [
+      { label: "Service", href: "?for=guest", x: 27, y: 87.6, w: 10.9, h: 3 },
+      { label: "Administration", href: "?for=admin", x: 38.2, y: 87.6, w: 20.4, h: 3 },
+      { label: "Finance", href: "?for=finance", x: 59.2, y: 87.6, w: 11.4, h: 3 },
+      { label: "Media & Communications", href: "?for=stage", x: 28.8, y: 90.4, w: 30.4, h: 2.8 },
+      { label: "Faith", href: "#photography", x: 60.6, y: 90.4, w: 8.3, h: 2.8 },
+    ],
+  },
+
   about: [
     "I sit where money, records and people meet. I count every collection myself, bank it, reconcile it against M-Pesa and the bank statement, and report weekly to the Cathedral Administrator, who approves every payment from my figures.",
     "Hand-built documents were slow and easy to get wrong, so I designed a family of Excel toolkits to replace them. I decide what each one must record, check and print; Claude AI writes the formulas and VBA to my specification; I test every result against real cash counts and bank records, and I run them with live data every week.",

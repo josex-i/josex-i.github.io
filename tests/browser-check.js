@@ -31,3 +31,22 @@ async function checkVersionPage() {
   if (document.documentElement.scrollWidth > innerWidth + 1) problems.push("horizontal scroll");
   return { version: v ? v.id : "full", ok: problems.length === 0, problems };
 }
+
+// Statue panel: full site shows it with 5 hotspots + 5 buttons; versions hide it.
+async function checkStatue() {
+  const problems = [], v = document.body.dataset.version;
+  const fig = document.getElementById("statue");
+  if (v) { if (fig) problems.push("statue shown in a version"); return { ok: !problems.length, problems }; }
+  if (!fig) return { ok: false, problems: ["statue missing"] };
+  const img = fig.querySelector("img");
+  await new Promise((r) => (img.complete ? r() : (img.onload = r)));
+  if (!(img.naturalWidth > 0)) problems.push("image not loaded");
+  const want = ["?for=guest", "?for=admin", "?for=finance", "?for=stage", "#photography"];
+  const hot = [...fig.querySelectorAll(".statue__hot")].map((a) => a.getAttribute("href"));
+  const btn = [...fig.querySelectorAll(".statue__words a")].map((a) => a.getAttribute("href"));
+  if (JSON.stringify(hot) !== JSON.stringify(want)) problems.push(`hotspots ${hot}`);
+  if (JSON.stringify(btn) !== JSON.stringify(want)) problems.push(`buttons ${btn}`);
+  const cap = "AI-generated artwork of my five fields: service, administration, finance, media and faith.";
+  if (fig.querySelector("figcaption .statue__cap")?.textContent.trim() !== cap) problems.push("caption");
+  return { ok: !problems.length, problems };
+}
