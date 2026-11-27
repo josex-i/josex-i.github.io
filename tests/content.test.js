@@ -11,6 +11,15 @@ const root = path.join(__dirname, "..");
 const SECTIONS = ["profile", "toolkits", "administration", "media", "photography", "films", "experience"];
 const versions = CONTENT.versions || [];
 const ids = versions.map((v) => v.id);
+// Windows ignores capital letters in file names; GitHub Pages does not. Check every part's exact spelling.
+function existsExact(rel) {
+  let dir = root;
+  for (const part of rel.split("/")) {
+    if (!fs.existsSync(dir) || !fs.readdirSync(dir).includes(part)) return false;
+    dir = path.join(dir, part);
+  }
+  return true;
+}
 
 test("the five starting versions exist with clean, unique ids", () => {
   for (const id of ["finance", "admin", "guest", "it", "stage"]) assert.ok(ids.includes(id), `missing version "${id}"`);
@@ -40,7 +49,7 @@ test("no version ends up without roles or skills", () => {
 
 test("each version's CV file exists (or the full CV is offered)", () => {
   for (const v of versions) {
-    if (v.cv && fs.existsSync(path.join(root, v.cv))) continue;
+    if (v.cv && existsExact(v.cv)) continue;
     console.warn(`version "${v.id}" has no CV yet, the full CV will be offered`);
   }
 });
@@ -62,10 +71,15 @@ test("each version's CV is its own file (a copied cv: line would offer the wrong
   }
 });
 
-test("every role photo exists", () => {
+test("existsExact is case-sensitive like GitHub Pages", () => {
+  assert.equal(existsExact("assets/career/2023-10-office-door.jpg"), true);
+  assert.equal(existsExact("assets/career/2023-10-Office-Door.jpg"), false);
+  assert.equal(existsExact("Assets/career/2023-10-office-door.jpg"), false);
+});
+
+test("every role photo exists (exact spelling and capitals)", () => {
   for (const x of CONTENT.experience) if (x.photo)
-    assert.ok(fs.existsSync(path.join(root, x.photo)), `role "${x.role}" photo not found: ${x.photo}`);
-  assert.ok(CONTENT.experience.filter((x) => x.photo).length >= 5, "the five roles with photos need their photo: field");
+    assert.ok(existsExact(x.photo), `role "${x.role}" photo not found (check spelling and capital letters): ${x.photo}`);
 });
 
 test("photos with a camera also have their settings (true details only)", () => {

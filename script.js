@@ -311,34 +311,42 @@
   function renderRoles(xp) {
     const box = $("#roles"); if (!box) return;
     if (!xp.length) { box.remove(); return; }
-    box.innerHTML = `<div class="roles__list" role="tablist" aria-label="Roles">${xp.map((x, i) => `
+    // An accordion of buttons: on phones each role opens below itself; on wide screens the panel on the right shows the open role.
+    box.innerHTML = `<div class="roles__list">${xp.map((x, i) => `
       <div class="role-item">
-        <button class="role" role="tab" data-i="${i}" aria-selected="false" aria-controls="role-panel">
+        <button class="role" id="role-btn-${i}" type="button" data-i="${i}" aria-expanded="false" aria-controls="role-drawer-${i} role-panel">
           <b>${String(i + 1).padStart(2, "0")}</b><span>${esc(x.role)}<small>${esc(x.period)}</small></span>
         </button>
-        <div class="role__drawer" hidden>${roleBody(x)}</div>
+        <div class="role__drawer" id="role-drawer-${i}" role="region" aria-labelledby="role-btn-${i}" hidden>${roleBody(x)}</div>
       </div>`).join("")}</div>
-      <div class="roles__panel" id="role-panel" role="tabpanel" aria-live="polite"></div>`;
+      <div class="roles__panel" id="role-panel" role="region"></div>`;
     const buttons = [...box.querySelectorAll(".role")];
-    function selectRole(i) {
-      buttons.forEach((b, j) => {
-        b.setAttribute("aria-selected", String(i === j));
-        b.tabIndex = i === j ? 0 : -1;
-        const dr = b.nextElementSibling; dr.hidden = i !== j;
-        if (i === j) { dr.classList.remove("swap"); void dr.offsetWidth; dr.classList.add("swap"); }
+    const panel = box.querySelector(".roles__panel");
+    const phone = matchMedia("(max-width: 899px)");
+    function open(i, user) {
+      const b = buttons[i];
+      if (user && phone.matches && b.classList.contains("is-open")) {   // phones: tap an open role again to close it
+        b.classList.remove("is-open"); b.setAttribute("aria-expanded", "false"); b.nextElementSibling.hidden = true; return;
+      }
+      buttons.forEach((x, j) => {
+        const on = i === j, dr = x.nextElementSibling;
+        x.classList.toggle("is-open", on); x.setAttribute("aria-expanded", String(on)); dr.hidden = !on;
+        if (on) { dr.classList.remove("swap"); void dr.offsetWidth; dr.classList.add("swap"); }
       });
-      const panel = box.querySelector(".roles__panel");
+      panel.setAttribute("aria-labelledby", b.id);
+      if (user) panel.setAttribute("aria-live", "polite");   // announce changes only after a visitor acts, not on page load
       panel.innerHTML = `<div class="swap">${roleBody(xp[i])}</div>`;
+      if (user && phone.matches) b.scrollIntoView({ block: "nearest", behavior: "instant" });   // keep the tapped role on screen
     }
-    box.addEventListener("click", (e) => { const b = e.target.closest(".role"); if (b) selectRole(+b.dataset.i); });
+    box.addEventListener("click", (e) => { const b = e.target.closest(".role"); if (b) open(+b.dataset.i, true); });
     box.addEventListener("keydown", (e) => {
       const b = e.target.closest(".role"); if (!b) return;
       const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (!step) return;
       e.preventDefault();
       const n = (+b.dataset.i + step + buttons.length) % buttons.length;
-      selectRole(n); buttons[n].focus();
+      open(n, true); buttons[n].focus();
     });
-    selectRole(0);
+    open(0, false);
   }
   renderRoles(XP);
   html("#education", (C.education || []).map((e) => `

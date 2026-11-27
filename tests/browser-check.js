@@ -52,7 +52,7 @@ async function checkStatue() {
   return { ok: !problems.length, problems };
 }
 
-// Career record: role list + photo panel. Run at any width; pass the iframe window if testing inside one.
+// Career record: role list + photo panel (desktop) / accordion (phone). Pass the iframe window if testing inside one.
 async function checkRoles(w = window) {
   const d = w.document, problems = [], C = w.CONTENT || CONTENT;
   const id = (new URLSearchParams(w.location.search).get("for") || "").toLowerCase().replace(/[^a-z0-9-]/g, "");
@@ -60,22 +60,36 @@ async function checkRoles(w = window) {
   const xp = C.experience.filter((x) => !v || !x.for || x.for.includes(v.id));
   const roles = [...d.querySelectorAll("#roles .role")];
   if (roles.length !== xp.length) return { ok: false, problems: [`roles ${roles.length} != ${xp.length}`] };
-  if (roles[0].getAttribute("aria-selected") !== "true") problems.push("first role not selected");
-  const wait = () => new Promise((r) => setTimeout(r, 60));
+  if (d.querySelector('#roles [role="tablist"], #roles [role="tab"]')) problems.push("tab roles used; should be an accordion of buttons");
+  if (roles[0].getAttribute("aria-expanded") !== "true") problems.push("first role not expanded");
+  const wait = () => new Promise((r) => setTimeout(r, 80));
+  const desktop = w.innerWidth >= 900;
   for (let i = 0; i < roles.length; i++) {
-    roles[i].click(); await wait();
-    if (roles[i].getAttribute("aria-selected") !== "true") problems.push(`role ${i} not selected after click`);
-    const desktop = w.innerWidth >= 900;
-    const box = desktop ? d.querySelector(".roles__panel") : roles[i].closest(".role-item").querySelector(".role__drawer");
+    const b = roles[i];
+    const tapped = !b.classList.contains("is-open"); if (tapped) b.click();
+    await wait();
+    if (b.getAttribute("aria-expanded") !== "true") problems.push(`role ${i} not expanded after click`);
+    const ctl = (b.getAttribute("aria-controls") || "").split(/\s+/).map((x) => d.getElementById(x));
+    if (!ctl.length || ctl.some((x) => !x)) problems.push(`role ${i} aria-controls points nowhere`);
+    const box = desktop ? d.querySelector(".roles__panel") : d.getElementById(`role-drawer-${i}`);
     if (!box || box.offsetParent === null) { problems.push(`role ${i} panel/drawer not visible`); continue; }
     if (desktop && box.querySelector("h3")?.textContent !== xp[i].role) problems.push(`panel title ${i}`);
     const img = box.querySelector("img");
     if (xp[i].photo ? !(img && img.getAttribute("src") === xp[i].photo) : !box.querySelector(".role__facts")) problems.push(`role ${i} media`);
+    if (!desktop && tapped) {
+      const top = b.getBoundingClientRect().top;
+      if (top < 0 || top > w.innerHeight) problems.push(`role ${i} scrolled off screen after tap (top ${Math.round(top)})`);
+    }
+  }
+  if (!desktop && roles.length) {
+    const last = roles[roles.length - 1]; last.click(); await wait();
+    if (last.getAttribute("aria-expanded") !== "false") problems.push("tapping an open role should close it on phones");
   }
   if (roles.length > 1) {
-    roles[0].click(); roles[0].focus();
+    roles[0].click(); await wait(); if (roles[0].getAttribute("aria-expanded") !== "true") { roles[0].click(); await wait(); }
+    roles[0].focus();
     roles[0].dispatchEvent(new w.KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true })); await wait();
-    if (roles[1].getAttribute("aria-selected") !== "true") problems.push("ArrowDown did not select next role");
+    if (d.activeElement !== roles[1] || roles[1].getAttribute("aria-expanded") !== "true") problems.push("ArrowDown did not open the next role");
   }
   return { ok: !problems.length, problems };
 }
