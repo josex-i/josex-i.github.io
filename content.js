@@ -396,6 +396,7 @@ const CONTENT = {
   experience: [
     {
       role: "Bookkeeper / Treasurer",
+      photo: "assets/career/2023-10-office-door.jpg",   // shown in the Career record panel (optional)
       for: ["finance", "admin"],
       org: "St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu",
       period: "Aug 2023 — Present",
@@ -411,6 +412,7 @@ const CONTENT = {
     },
     {
       role: "Administrative Secretary",
+      photo: "assets/career/2023-08-reception-a.jpg",   // shown in the Career record panel (optional)
       for: ["admin", "guest", "finance"],
       org: "St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu",
       period: "Oct 2022 — Present",
@@ -422,6 +424,7 @@ const CONTENT = {
     },
     {
       role: "Head of AV / ICT",
+      photo: "assets/av/control-room-old.jpg",   // shown in the Career record panel (optional)
       for: ["stage", "it"],
       org: "St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu",
       period: "Oct 2019 — Present",
@@ -442,6 +445,7 @@ const CONTENT = {
     },
     {
       role: "Assistant camera operator (freelance)",
+      photo: "assets/photos/on-set-01.jpg",   // shown in the Career record panel (optional)
       for: ["stage"],
       org: "NewDawn Media Creations · Kisumu",
       period: "2022",
@@ -451,6 +455,7 @@ const CONTENT = {
     },
     {
       role: "Cyber café attendant",
+      photo: "assets/career/2018-cyber-cafe.jpg",   // shown in the Career record panel (optional)
       for: ["it", "guest"],
       org: "Harmony Entertainment · Kisumu",
       period: "Jan 2018 — Dec 2019",

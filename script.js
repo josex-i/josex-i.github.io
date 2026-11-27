@@ -292,15 +292,49 @@
     </button>`).join("")}</div>
     <div class="frames__bar"><span>Career in frames · ${FR.length} photos · drag or scroll</span><i><b id="frames-progress"></b></i></div>` : "");
   if (!FR.length) $("#frames")?.remove();
-  html("#timeline", XP.map((x, i) => `
-    <li class="reveal${/present/i.test(x.period) ? " is-current" : ""}" style="--d:${i * 60}ms">
-      <div class="period"><span class="code">R—${String(XP.length - i).padStart(2, "0")}</span>${esc(x.period)}${/present/i.test(x.period) ? `<span class="live"><span class="dot"></span>Current</span>` : ""}</div>
-      <div>
-        <h3>${esc(x.role)}</h3>
-        <div class="org">${esc(x.org)}</div>
+  /* ----- career record: numbered roles + a panel that swaps to the chosen role ----- */
+  const live = (x) => /present/i.test(x.period);
+  const roleBody = (x) => `
+      ${x.photo ? `<figure class="role__photo"><img src="${esc(x.photo)}" alt="${esc(x.role)}" loading="lazy"></figure>`
+        : `<div class="role__facts"><span>${esc(x.org)}</span><b>${esc(x.period)}</b></div>`}
+      <div class="role__text">
+        <p class="role__meta">${esc(x.period)}${live(x) ? ` <span class="live"><span class="dot"></span>Current</span>` : ""}</p>
+        <h3>${esc(x.role)}</h3><p class="org">${esc(x.org)}</p>
         <ul>${(x.points || []).map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
-      </div>
-    </li>`).join(""));
+      </div>`;
+  function renderRoles(xp) {
+    const box = $("#roles"); if (!box) return;
+    if (!xp.length) { box.remove(); return; }
+    box.innerHTML = `<div class="roles__list" role="tablist" aria-label="Roles">${xp.map((x, i) => `
+      <div class="role-item">
+        <button class="role" role="tab" data-i="${i}" aria-selected="false" aria-controls="role-panel">
+          <b>${String(i + 1).padStart(2, "0")}</b><span>${esc(x.role)}<small>${esc(x.period)}</small></span>
+        </button>
+        <div class="role__drawer" hidden>${roleBody(x)}</div>
+      </div>`).join("")}</div>
+      <div class="roles__panel" id="role-panel" role="tabpanel" aria-live="polite"></div>`;
+    const buttons = [...box.querySelectorAll(".role")];
+    function selectRole(i) {
+      buttons.forEach((b, j) => {
+        b.setAttribute("aria-selected", String(i === j));
+        b.tabIndex = i === j ? 0 : -1;
+        const dr = b.nextElementSibling; dr.hidden = i !== j;
+        if (i === j) { dr.classList.remove("swap"); void dr.offsetWidth; dr.classList.add("swap"); }
+      });
+      const panel = box.querySelector(".roles__panel");
+      panel.innerHTML = `<div class="swap">${roleBody(xp[i])}</div>`;
+    }
+    box.addEventListener("click", (e) => { const b = e.target.closest(".role"); if (b) selectRole(+b.dataset.i); });
+    box.addEventListener("keydown", (e) => {
+      const b = e.target.closest(".role"); if (!b) return;
+      const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]; if (!step) return;
+      e.preventDefault();
+      const n = (+b.dataset.i + step + buttons.length) % buttons.length;
+      selectRole(n); buttons[n].focus();
+    });
+    selectRole(0);
+  }
+  renderRoles(XP);
   html("#education", (C.education || []).map((e) => `
     <li><span><strong>${esc(e.title)}</strong><br><small>${esc(e.org)}</small></span><span class="num">${esc(e.period)}</span></li>`).join(""));
 

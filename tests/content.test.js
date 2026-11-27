@@ -61,3 +61,9 @@ test("each version's CV is its own file (a copied cv: line would offer the wrong
     assert.ok(v.cv.endsWith(`-${v.id}.pdf`), `version "${v.id}" points at ${v.cv}. Delete that cv: line (the full CV is offered until Claude makes yours)`);
   }
 });
+
+test("every role photo exists", () => {
+  for (const x of CONTENT.experience) if (x.photo)
+    assert.ok(fs.existsSync(path.join(root, x.photo)), `role "${x.role}" photo not found: ${x.photo}`);
+  assert.ok(CONTENT.experience.filter((x) => x.photo).length >= 5, "the five roles with photos need their photo: field");
+});
