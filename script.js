@@ -371,7 +371,8 @@
   if (V) {
     document.body.dataset.version = V.id;
     const main = $("#main"), contactSec = $("#contact");
-    const keep = V.sections || [];
+    const ALL = ["profile", "toolkits", "administration", "media", "photography", "films", "experience"];
+    const keep = Array.isArray(V.sections) && V.sections.length ? V.sections : ALL;  // a missing list shows everything, never a blank page
     main.querySelectorAll(":scope > section[id]").forEach((s) => { if (s.id !== "contact" && !keep.includes(s.id)) s.remove(); });
     keep.forEach((id) => { const s = document.getElementById(id); if (s) main.insertBefore(s, contactSec); });
     [...keep, "contact"].forEach((id, i) => { const sp = document.querySelector(`#${id} .eyebrow span`); if (sp) sp.textContent = String(i + 1).padStart(2, "0"); });

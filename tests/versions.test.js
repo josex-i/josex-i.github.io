@@ -63,3 +63,20 @@ test("filterContent(null) is an unchanged copy and never mutates the input", () 
   filterContent(C, C.versions[0]); filterContent(C, C.versions[1]);
   assert.deepEqual(C, before);
 });
+
+test("filterContent works on older browsers without structuredClone", () => {
+  const saved = globalThis.structuredClone;
+  try {
+    globalThis.structuredClone = undefined;
+    const C = fixture();
+    assert.deepEqual(filterContent(C, null), C);
+    assert.deepEqual(filterContent(C, C.versions[0]).experience.map((x) => x.role), ["only a", "both", "untagged"]);
+  } finally { globalThis.structuredClone = saved; }
+});
+
+test("a version's availability line replaces the default", () => {
+  const C = { ...fixture(), availability: "Open to anything" };
+  C.versions[0].availability = "Open to A roles";
+  assert.equal(filterContent(C, C.versions[0]).availability, "Open to A roles");
+  assert.equal(filterContent(C, C.versions[1]).availability, "Open to anything");
+});

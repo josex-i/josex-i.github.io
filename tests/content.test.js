@@ -44,3 +44,20 @@ test("each version's CV file exists (or the full CV is offered)", () => {
     console.warn(`version "${v.id}" has no CV yet, the full CV will be offered`);
   }
 });
+
+test("each version has a label, headline, availability line and a non-empty sections list", () => {
+  for (const v of versions) {
+    for (const k of ["label", "heroTitle", "availability"]) assert.ok(v[k], `version "${v.id}" is missing ${k}`);
+    assert.ok(Array.isArray(v.sections) && v.sections.length, `version "${v.id}" needs sections: ["profile", ...]`);
+  }
+});
+
+test("each version's CV is its own file (a copied cv: line would offer the wrong CV)", () => {
+  const seen = new Set();
+  for (const v of versions) {
+    if (!v.cv) continue;
+    assert.ok(!seen.has(v.cv), `two versions share the CV file ${v.cv}. Delete the cv: line in the copied version`);
+    seen.add(v.cv);
+    assert.ok(v.cv.endsWith(`-${v.id}.pdf`), `version "${v.id}" points at ${v.cv}. Delete that cv: line (the full CV is offered until Claude makes yours)`);
+  }
+});

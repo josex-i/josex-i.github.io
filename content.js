@@ -93,12 +93,14 @@ const CONTENT = {
        4. Further down, add your new id to the  for: [...]  list of every role, skill card,
           number and photo it should show. Anything with no  for:  list shows everywhere.
        5. Leave cv out until Claude has made that version's CV; the full CV is offered meanwhile.
-       6. Save, then publish:  git add -A   git commit -m "new version"   git push
+       6. Optional check for typos (VS Code terminal):  node --test tests/
+       7. Save, then publish:  git commit -am "new version"   then   git push
   */
   versions: [
     {
       id: "finance",
       label: "finance & accounts",
+      availability: "Open to finance & accounts roles",
       heroTitle: "Bookkeeper / Treasurer",
       heroCreds: "CAMS graduate (KASNEB) · Excel, VBA & QuickBooks · M-Pesa and bank reconciliation",
       intro:
@@ -115,6 +117,7 @@ const CONTENT = {
     {
       id: "admin",
       label: "administration",
+      availability: "Open to administration roles",
       heroTitle: "Administrative Secretary",
       heroCreds: "Running a busy cathedral office since 2022 · letters, registers, minutes & procurement · CAMS (KASNEB)",
       intro:
@@ -131,6 +134,7 @@ const CONTENT = {
     {
       id: "guest",
       label: "guest services & front desk",
+      availability: "Open to guest services & front desk roles",
       heroTitle: "Reception & guest relations",
       heroCreds: "Front desk of a busy cathedral office since 2022 · English, Kiswahili, Dholuo",
       intro:
@@ -146,6 +150,7 @@ const CONTENT = {
     {
       id: "it",
       label: "IT support",
+      availability: "Open to IT support roles",
       heroTitle: "ICT support · Head of AV / ICT",
       heroCreds: "Sole ICT support for a parish office since 2019 · Linux & networking (CCNA coursework) · built the cathedral website",
       intro:
@@ -153,7 +158,7 @@ const CONTENT = {
         "I keep the office's computers and network running, look after the sound and video systems, and built the cathedral's website.",
       about: [
         "When something stops working in the parish office, I am the one who fixes it: the computers, the network and the audio-visual equipment.",
-        "I studied Linux server administration and took Cisco CCNA coursework, and I started out helping customers with computers at a cyber café. I also build Excel tools with VBA to automate the office's work.",
+        "I studied Linux server administration and took Cisco CCNA coursework, and I started out helping customers with computers at a cyber café. I also design Excel tools that automate the office's work; Claude AI writes the VBA to my specification and I test every result.",
       ],
       sections: ["profile", "experience", "photography", "toolkits"],
       cv: "assets/docs/Joseph-Omondi-Otieno-CV-it.pdf",
@@ -161,6 +166,7 @@ const CONTENT = {
     {
       id: "stage",
       label: "stage, AV & events",
+      availability: "Open to stage, AV & events roles, at sea or on land",
       heroTitle: "Live sound, video & stage",
       heroCreds: "Head of AV at a cathedral since 2019 · Midas M32 digital console · assistant camera operator (2022)",
       intro:

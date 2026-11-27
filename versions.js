@@ -2,7 +2,9 @@
    You don't need to edit this file: versions are defined in content.js. */
 (function (root) {
   const FILTERED_KEYS = ["experience", "expertise", "stats", "careerFrames", "avPhotos"];
-  const WORDS = ["heroTitle", "heroCreds", "intro", "about", "cv"];
+  const WORDS = ["heroTitle", "heroCreds", "intro", "about", "availability", "cv"];
+  // structuredClone is missing on older phones (iOS before 15.4); plain JSON copy works everywhere for this data
+  const clone = (x) => (typeof structuredClone === "function" ? structuredClone(x) : JSON.parse(JSON.stringify(x)));
 
   function pickVersion(content, search) {
     const list = (content && content.versions) || [];
@@ -12,12 +14,12 @@
   }
 
   function filterContent(content, version) {
-    const out = structuredClone(content);
+    const out = clone(content);
     if (!version) return out;
     FILTERED_KEYS.forEach((k) => {
       if (Array.isArray(out[k])) out[k] = out[k].filter((item) => !item.for || item.for.includes(version.id));
     });
-    WORDS.forEach((k) => { if (version[k] != null) out[k] = structuredClone(version[k]); });
+    WORDS.forEach((k) => { if (version[k] != null) out[k] = clone(version[k]); });
     return out;
   }
 
