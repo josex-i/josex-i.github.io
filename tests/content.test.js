@@ -67,3 +67,9 @@ test("every role photo exists", () => {
     assert.ok(fs.existsSync(path.join(root, x.photo)), `role "${x.role}" photo not found: ${x.photo}`);
   assert.ok(CONTENT.experience.filter((x) => x.photo).length >= 5, "the five roles with photos need their photo: field");
 });
+
+test("photos with a camera also have their settings (true details only)", () => {
+  (CONTENT.photos || []).forEach((p, i) => {
+    if (p.camera) assert.ok(p.settings, `photo ${i} "${p.caption}" names a camera but has no settings; take both from the original file or leave both out`);
+  });
+});
