@@ -39,7 +39,8 @@ async function checkStatue() {
   if (v) { if (fig) problems.push("statue shown in a version"); return { ok: !problems.length, problems }; }
   if (!fig) return { ok: false, problems: ["statue missing"] };
   const img = fig.querySelector("img");
-  await new Promise((r) => (img.complete ? r() : (img.onload = r)));
+  img.loading = "eager";
+  await Promise.race([new Promise((r) => (img.complete ? r() : (img.onload = r))), new Promise((r) => setTimeout(r, 4000))]);
   if (!(img.naturalWidth > 0)) problems.push("image not loaded");
   const want = ["?for=guest", "?for=admin", "?for=finance", "?for=stage", "#photography"];
   const hot = [...fig.querySelectorAll(".statue__hot")].map((a) => a.getAttribute("href"));
