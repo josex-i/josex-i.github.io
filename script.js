@@ -337,7 +337,7 @@
       if (user) panel.setAttribute("aria-live", "polite");   // announce changes only after a visitor acts, not on page load
       panel.innerHTML = `<div class="swap">${roleBody(xp[i])}</div>`;
       if (user && phone.matches) {   // keep the tapped role on screen, even while photos above it finish loading and push the page down
-        const keep = () => b.scrollIntoView({ block: "nearest", behavior: "instant" });
+        const keep = () => b.scrollIntoView({ block: "start", behavior: "instant" });
         keep();
         const onLoad = () => keep();
         document.addEventListener("load", onLoad, true);
