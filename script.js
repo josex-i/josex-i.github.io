@@ -1,13 +1,16 @@
 /* Builds the page from content.js. You normally don't need to edit this file. */
 (function () {
-  const C = window.CONTENT || CONTENT;
+  const RAW = window.CONTENT || CONTENT;
+  // ?for=stage etc. shows a tailored version (see "versions" in content.js)
+  const V = window.Versions ? Versions.pickVersion(RAW, location.search) : null;
+  const C = window.Versions ? Versions.filterContent(RAW, V) : RAW;
   const $ = (s, r = document) => r.querySelector(s);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const fmt = (n) => (n == null ? "—" : Number(n).toLocaleString("en-US"));
   const html = (sel, s) => { const el = $(sel); if (el) el.innerHTML = s; };
 
   /* ----- simple text ----- */
-  document.title = `${C.name} · ${C.role}`;
+  document.title = `${C.name} · ${V ? C.heroTitle : C.role}`;
   document.querySelectorAll("[data-bind]").forEach((el) => {
     const v = C[el.dataset.bind];
     if (v) el.textContent = v;
@@ -343,6 +346,26 @@
   if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const fo = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in-focus"); fo.unobserve(en.target); } }), { threshold: 0.35 });
     document.querySelectorAll(".natural .gallery button, .natural .project__media, .archive figure").forEach((el) => { el.classList.add("focus-pull"); fo.observe(el); });
+  }
+
+  /* ----- tailored version: keep only its sections, in its order ----- */
+  if (V) {
+    document.body.dataset.version = V.id;
+    const main = $("#main"), contactSec = $("#contact");
+    const keep = V.sections || [];
+    main.querySelectorAll(":scope > section[id]").forEach((s) => { if (s.id !== "contact" && !keep.includes(s.id)) s.remove(); });
+    keep.forEach((id) => { const s = document.getElementById(id); if (s) main.insertBefore(s, contactSec); });
+    [...keep, "contact"].forEach((id, i) => { const sp = document.querySelector(`#${id} .eyebrow span`); if (sp) sp.textContent = String(i + 1).padStart(2, "0"); });
+    if (!(C.stats || []).length) $(".figures")?.remove();
+    const explore = $('.hero__cta a[href="#toolkits"]');
+    if (explore && keep[0]) explore.setAttribute("href", `#${keep[0]}`);
+    document.querySelectorAll('a[href^="#"]').forEach((a) => { const h = a.getAttribute("href"); if (h.length > 1 && !document.getElementById(h.slice(1))) a.remove(); });
+    const note = $("#version-note");
+    if (note) { note.innerHTML = `<div class="wrap"><span>This page is tailored for ${esc(V.label)} roles</span><a href="./">See my full portfolio →</a></div>`; note.hidden = false; }
+    // a version whose CV hasn't been made yet offers the full CV instead
+    if (V.cv && RAW.cv && V.cv !== RAW.cv) fetch(V.cv, { method: "HEAD" }).then((r) => r.ok, () => false).then((ok) => {
+      if (!ok) document.querySelectorAll(`a[href="${V.cv}"]`).forEach((a) => a.setAttribute("href", RAW.cv));
+    });
   }
 
   /* ----- motion design ----- */

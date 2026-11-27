@@ -699,3 +699,11 @@ p { margin: 0 0 1em; }
   .kv i, .kv b, .keyfigs .kf::before { transition: none !important; transform: none !important; }
   .to-top, .contact__card { transition: none; }
 }
+
+/* =====================================================================
+   TAILORED VERSION NOTE (?for=...)
+   ===================================================================== */
+.version-note { background: #050b1f; border-top: 1px solid rgb(122 162 255 / .14); color: #a8b4d6; font: .8rem var(--mono); letter-spacing: .04em; }
+.version-note .wrap { display: flex; justify-content: space-between; align-items: center; gap: 10px 24px; flex-wrap: wrap; padding: 16px 0; }
+.version-note a { color: #e6ecff; text-decoration: none; border: 1px solid rgb(122 162 255 / .35); border-radius: 999px; padding: 6px 14px; transition: background .2s; }
+.version-note a:hover { background: rgb(122 162 255 / .15); }
