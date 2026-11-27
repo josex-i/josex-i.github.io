@@ -38,10 +38,10 @@ const CONTENT = {
        compare → "before" bar vs "after" bar (same unit)
        count   → just the big number counting up */
   stats: [
-    { value: "116%", label: "Roof appeal vs. the KSh 1M target I set", viz: { type: "meter", pct: 116 } },
-    { value: "10 / 10", label: "Ledger integrity checks passing", viz: { type: "checks", pass: 10, total: 10 } },
-    { value: "10 min", label: "Weekly report, down from 30–35", viz: { type: "compare", before: 35, after: 10, unit: "min" } },
-    { value: "19,017", label: "M-Pesa payments reconciled in 12 months", viz: { type: "count" } },
+    { value: "116%", label: "Roof appeal vs. the KSh 1M target I set", viz: { type: "meter", pct: 116 }, for: ["finance"] },
+    { value: "10 / 10", label: "Ledger integrity checks passing", viz: { type: "checks", pass: 10, total: 10 }, for: ["finance"] },
+    { value: "10 min", label: "Weekly report, down from 30–35", viz: { type: "compare", before: 35, after: 10, unit: "min" }, for: ["finance", "admin"] },
+    { value: "19,017", label: "M-Pesa payments reconciled in 12 months", viz: { type: "count" }, for: ["finance", "admin"] },
   ],
   ticker: [
     "ROOF APPEAL KSh 1,161,928", "TARGET REACHED 116%", "VARIANCE KSh 0",
@@ -65,28 +65,123 @@ const CONTENT = {
     whatsapp: "",
   },
 
+  /* ---------- 2b. TAILORED VERSIONS ----------
+     Each version is the same site showing only what fits one kind of job.
+     Its link is  https://josex-i.github.io/?for=ID   (for example ?for=stage)
+
+     HOW TO MAKE A NEW VERSION
+       1. Copy one whole block below, from { to }, and paste it after the last one.
+       2. Give it a new id (small letters, numbers or - only), a label and its own words.
+       3. "sections" = which parts to show, in order. Choose from:
+          profile, toolkits, administration, media, photography, films, experience
+          (the top of the page, the headline numbers and Contact always show).
+       4. Further down, add your new id to the  for: [...]  list of every role, skill card,
+          number and photo it should show. Anything with no  for:  list shows everywhere.
+       5. Leave cv out until Claude has made that version's CV; the full CV is offered meanwhile.
+       6. Save, then publish:  git add -A   git commit -m "new version"   git push
+  */
+  versions: [
+    {
+      id: "finance",
+      label: "finance & accounts",
+      heroTitle: "Bookkeeper / Treasurer",
+      heroCreds: "CAMS graduate (KASNEB) · Excel, VBA & QuickBooks · M-Pesa and bank reconciliation",
+      intro:
+        "Bookkeeper / Treasurer at St. Theresa's Cathedral, Kibuye (Archdiocese of Kisumu). " +
+        "I count the parish's cash, reconcile it against M-Pesa and the bank, prepare all of its financial reports " +
+        "and design the Excel toolkits that keep the figures right. CAMS graduate (KASNEB) with QuickBooks experience.",
+      about: [
+        "I count every collection myself, bank it, reconcile it against M-Pesa and the bank statement, and report weekly to the Cathedral Administrator, who approves every payment from my figures.",
+        "Hand-built documents were slow and easy to get wrong, so I designed a family of Excel toolkits to replace them. I decide what each one must record, check and print; Claude AI writes the formulas and VBA to my specification; I test every result against real cash counts and bank records, and I run them with live data every week.",
+      ],
+      sections: ["profile", "toolkits", "experience"],
+      cv: "assets/docs/Joseph-Omondi-Otieno-CV-finance.pdf",
+    },
+    {
+      id: "admin",
+      label: "administration",
+      heroTitle: "Administrative Secretary",
+      heroCreds: "Running a busy cathedral office since 2022 · letters, registers, minutes & procurement · CAMS (KASNEB)",
+      intro:
+        "Administrative Secretary at St. Theresa's Cathedral, Kibuye (Archdiocese of Kisumu), " +
+        "one of the largest Catholic cathedrals in Western Kenya, serving about 2,000 people each Sunday. " +
+        "I run the office for the resident priest: correspondence, registers, minutes, procurement records and visitors.",
+      about: [
+        "I run the cathedral office for the resident priest. I write the announcements, letters and minutes, keep the marriage and sacrament files, register contractor quotations and keep the stall rent register.",
+        "When paper records were slow and easy to lose, I moved them into Excel: a 43-stall rent ledger with automatic checks and a numbered register of every renovation quotation, each tracked to payment.",
+      ],
+      sections: ["profile", "administration", "toolkits", "experience"],
+      cv: "assets/docs/Joseph-Omondi-Otieno-CV-admin.pdf",
+    },
+    {
+      id: "guest",
+      label: "guest services & front desk",
+      heroTitle: "Reception & guest relations",
+      heroCreds: "Front desk of a busy cathedral office since 2022 · English, Kiswahili, Dholuo",
+      intro:
+        "I sit at the reception and secretary's desk of St. Theresa's Cathedral, Kibuye, in Kisumu: the first person visitors meet. " +
+        "The office receives parishioners every day, and guests such as the Apostolic Nuncio, visiting bishops from Uganda, Rwanda and Nigeria, and senior government officials.",
+      about: [
+        "Every day I welcome visitors, answer their questions and make sure each one reaches the right person.",
+        "I have served customers since my first job at a cyber café in Kisumu, where I helped people with computers and research and kept their billing accurate. I speak English, Kiswahili and Dholuo.",
+      ],
+      sections: ["profile", "administration", "experience"],
+      cv: "assets/docs/Joseph-Omondi-Otieno-CV-guest.pdf",
+    },
+    {
+      id: "it",
+      label: "IT support",
+      heroTitle: "ICT support · Head of AV / ICT",
+      heroCreds: "Sole ICT support for a parish office since 2019 · Linux & networking (CCNA coursework) · built the cathedral website",
+      intro:
+        "Head of AV / ICT at St. Theresa's Cathedral, Kibuye, in Kisumu, and the only ICT support for the parish office since 2019. " +
+        "I keep the office's computers and network running, look after the sound and video systems, and built the cathedral's website.",
+      about: [
+        "When something stops working in the parish office, I am the one who fixes it: the computers, the network and the audio-visual equipment.",
+        "I studied Linux server administration and took Cisco CCNA coursework, and I started out helping customers with computers at a cyber café. I also build Excel tools with VBA to automate the office's work.",
+      ],
+      sections: ["profile", "experience", "photography", "toolkits"],
+      cv: "assets/docs/Joseph-Omondi-Otieno-CV-it.pdf",
+    },
+    {
+      id: "stage",
+      label: "stage, AV & events",
+      heroTitle: "Live sound, video & stage",
+      heroCreds: "Head of AV at a cathedral since 2019 · Midas M32 digital console · assistant camera operator (2022)",
+      intro:
+        "I run the sound and video desk at St. Theresa's Cathedral, Kibuye, in Kisumu: five Sunday Masses every week, plus big celebrations led by bishops. " +
+        "I started behind the camera as an assistant camera operator, capturing live events for the edit.",
+      about: [
+        "Every Sunday I run live sound and video for five Masses on a Midas M32 digital console, with TASSO amplifiers, wireless microphones and an LED screen.",
+        "During the 2025 cathedral construction we held worship outdoors under tents for nine months, so I set up and ran the sound and video outside, week after week. I have also worked on event and feature films for sport, schools and a hospital.",
+      ],
+      sections: ["media", "films", "experience", "profile"],
+      cv: "assets/docs/Joseph-Omondi-Otieno-CV-stage.pdf",
+    },
+  ],
+
   /* ---------- 3. CORE COMPETENCIES ---------- */
   expertise: [
     {
-      id: "finance", title: "Finance",
+      id: "finance", title: "Finance", for: ["finance"],
       summary: "Cash control, reconciliation and reporting.",
       skills: ["Cash counting & banking", "M-Pesa Paybill vs. bank reconciliation", "Weekly & monthly income and expenditure", "Budget monitoring, projected vs. actual", "Payroll schedule: NSSF, NITA, Housing Levy", "Receivables aging & arrears control"],
       tools: ["Excel + VBA", "QuickBooks", "M-Pesa Paybill"],
     },
     {
-      id: "admin", title: "Administration",
+      id: "admin", title: "Administration", for: ["admin", "guest"],
       summary: "Running a busy cathedral office.",
       skills: ["Office management for the resident priest", "Hosting bishops, the Nuncio & officials", "Contractor quotations & procurement records", "Stall rent register (43 stalls)", "Reports to the Parish Pastoral Council"],
       tools: ["Word", "Excel", "PDF"],
     },
     {
-      id: "visual", title: "Audio-visual & ICT",
+      id: "visual", title: "Audio-visual & ICT", for: ["stage", "it"],
       summary: "Production for five Sunday Masses.",
       skills: ["AV lead for five Sunday Masses", "Outdoor worship under tents during 2025 construction", "Event video & photography", "Sole ICT support for the parish office", "Website design (cathedral site)"],
       tools: ["Canon EOS 60D", "Linux", "Networking"],
     },
     {
-      id: "ai", title: "AI-assisted building",
+      id: "ai", title: "AI-assisted building", for: ["finance", "admin", "it"],
       summary: "Specify, test, operate.",
       skills: ["Writing precise specifications for AI tools", "Testing outputs against real cash & bank records", "Turning manual documents into searchable systems"],
       tools: ["Claude AI", "ChatGPT", "Google Gemini"],
@@ -280,6 +375,7 @@ const CONTENT = {
   experience: [
     {
       role: "Bookkeeper / Treasurer",
+      for: ["finance", "admin"],
       org: "St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu",
       period: "Aug 2023 — Present",
       points: [
@@ -294,6 +390,7 @@ const CONTENT = {
     },
     {
       role: "Administrative Secretary",
+      for: ["admin", "guest", "finance"],
       org: "St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu",
       period: "Oct 2022 — Present",
       points: [
@@ -304,6 +401,7 @@ const CONTENT = {
     },
     {
       role: "Head of AV / ICT",
+      for: ["stage", "it"],
       org: "St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu",
       period: "Oct 2019 — Present",
       points: [
@@ -313,6 +411,7 @@ const CONTENT = {
     },
     {
       role: "Accounts & ICT duties",
+      for: ["finance", "it", "admin"],
       org: "Exuviance Professionals · Nairobi",
       period: "Sep 2021 — Feb 2022",
       points: [
@@ -322,6 +421,7 @@ const CONTENT = {
     },
     {
       role: "Assistant camera operator (freelance)",
+      for: ["stage"],
       org: "NewDawn Media Creations · Kisumu",
       period: "2022",
       points: [
@@ -330,6 +430,7 @@ const CONTENT = {
     },
     {
       role: "Cyber café attendant",
+      for: ["it", "guest"],
       org: "Harmony Entertainment · Kisumu",
       period: "Jan 2018 — Dec 2019",
       points: [
@@ -340,14 +441,14 @@ const CONTENT = {
 
   /* Career in frames: photos shown as a strip in the Career record, oldest first */
   careerFrames: [
-    { src: "assets/career/2018-cyber-cafe.jpg", date: "19 June 2018", caption: "At work in the Harmony Entertainment cyber café" },
-    { src: "assets/career/2021-canon.jpg", date: "21 January 2021", caption: "With a Canon camera, on a lunch stop after a shoot that didn't happen" },
-    { src: "assets/career/2023-08-reception-a.jpg", date: "31 August 2023", caption: "At the reception and secretary's desk" },
-    { src: "assets/career/2023-08-reception-b.jpg", date: "31 August 2023", caption: "Receiving visitors at the secretary's desk" },
-    { src: "assets/career/2023-09-office-a.jpg", date: "15 September 2023", caption: "In the administrative office" },
-    { src: "assets/career/2023-09-office-b.jpg", date: "15 September 2023", caption: "In the administrative office" },
-    { src: "assets/career/2023-10-office.jpg", date: "5 October 2023", caption: "In the administrative office" },
-    { src: "assets/career/2023-10-office-door.jpg", date: "10 October 2023", caption: "In front of the administrative office" },
+    { src: "assets/career/2018-cyber-cafe.jpg", date: "19 June 2018", caption: "At work in the Harmony Entertainment cyber café", for: ["it", "guest"] },
+    { src: "assets/career/2021-canon.jpg", date: "21 January 2021", caption: "With a Canon camera, on a lunch stop after a shoot that didn't happen", for: ["stage"] },
+    { src: "assets/career/2023-08-reception-a.jpg", date: "31 August 2023", caption: "At the reception and secretary's desk", for: ["admin", "guest", "finance"] },
+    { src: "assets/career/2023-08-reception-b.jpg", date: "31 August 2023", caption: "Receiving visitors at the secretary's desk", for: ["admin", "guest", "finance"] },
+    { src: "assets/career/2023-09-office-a.jpg", date: "15 September 2023", caption: "In the administrative office", for: ["admin", "guest", "finance"] },
+    { src: "assets/career/2023-09-office-b.jpg", date: "15 September 2023", caption: "In the administrative office", for: ["admin", "guest", "finance"] },
+    { src: "assets/career/2023-10-office.jpg", date: "5 October 2023", caption: "In the administrative office", for: ["admin", "guest", "finance"] },
+    { src: "assets/career/2023-10-office-door.jpg", date: "10 October 2023", caption: "In front of the administrative office", for: ["admin", "guest", "finance"] },
   ],
   education: [
     { title: "Certificate in Accounting and Management Skills (CAMS): Graduate", org: "KASNEB · Level I May 2021, Level II April 2022", period: "2022" },
@@ -358,3 +459,5 @@ const CONTENT = {
   ],
   languages: "English, Kiswahili, Dholuo",
 };
+
+if (typeof module !== "undefined" && module.exports) module.exports = CONTENT;  // lets the checks in tests/ read this file
