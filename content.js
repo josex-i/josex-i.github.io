@@ -32,11 +32,16 @@ const CONTENT = {
   availability: "Open to finance & administration roles",
 
   /* Headline numbers (hero) */
+  /* viz = the small picture under each number:
+       meter   → bar filled to pct (over 100 shows the extra)
+       checks  → row of boxes, pass out of total
+       compare → "before" bar vs "after" bar (same unit)
+       count   → just the big number counting up */
   stats: [
-    { value: "116%", label: "Roof appeal vs. the KSh 1M target I set" },
-    { value: "10 / 10", label: "Ledger integrity checks passing" },
-    { value: "10 min", label: "Weekly report, down from 30–35" },
-    { value: "19,017", label: "M-Pesa payments reconciled in 12 months" },
+    { value: "116%", label: "Roof appeal vs. the KSh 1M target I set", viz: { type: "meter", pct: 116 } },
+    { value: "10 / 10", label: "Ledger integrity checks passing", viz: { type: "checks", pass: 10, total: 10 } },
+    { value: "10 min", label: "Weekly report, down from 30–35", viz: { type: "compare", before: 35, after: 10, unit: "min" } },
+    { value: "19,017", label: "M-Pesa payments reconciled in 12 months", viz: { type: "count" } },
   ],
   ticker: [
     "ROOF APPEAL KSh 1,161,928", "TARGET REACHED 116%", "VARIANCE KSh 0",
@@ -184,10 +189,11 @@ const CONTENT = {
   },
 
   /* ---------- FILMS (Google Drive videos; each must be shared as "Anyone with the link") ---------- */
+  filmsPitch: "Event and feature films I've worked on, in sport, education and health, made for the people who couldn't be in the room.",
   films: [
-    { id: "1Et_isAUNUVD9XtQwAe4Kb1ncZnZJMY8Y", title: "The Upriser", note: "Taekwondo tournament coverage" },
-    { id: "1N41iroiaGLKeuxLlFVFPzeQcSH9mu18J", title: "St. Charles Lwanga Secondary School", note: "School feature" },
-    { id: "1egX0rsHbaJr1X_xFKYcUoyRNUpqpLumt", title: "Jaramogi Oginga Odinga Teaching & Referral Hospital", note: "Hospital feature" },
+    { id: "1Et_isAUNUVD9XtQwAe4Kb1ncZnZJMY8Y", title: "The Upriser", note: "Taekwondo tournament coverage", tag: "Sport" },
+    { id: "1N41iroiaGLKeuxLlFVFPzeQcSH9mu18J", title: "St. Charles Lwanga Secondary School", note: "School feature", tag: "Education" },
+    { id: "1egX0rsHbaJr1X_xFKYcUoyRNUpqpLumt", title: "Jaramogi Oginga Odinga Teaching & Referral Hospital", note: "Hospital feature", tag: "Health" },
   ],
 
   furtherWork: [
@@ -314,6 +320,34 @@ const CONTENT = {
         "Built the marketing team's client record system and stock-expiry tracking in Excel.",
       ],
     },
+    {
+      role: "Assistant camera operator (freelance)",
+      org: "NewDawn Media Creations · Kisumu",
+      period: "2022",
+      points: [
+        "Captured live liturgical events on a tripod-mounted DSLR for editing.",
+      ],
+    },
+    {
+      role: "Cyber café attendant",
+      org: "Harmony Entertainment · Kisumu",
+      period: "Jan 2018 — Dec 2019",
+      points: [
+        "Helped customers with ICT tasks and research; recorded customer usage and billing accurately.",
+      ],
+    },
+  ],
+
+  /* Career in frames: photos shown as a strip in the Career record, oldest first */
+  careerFrames: [
+    { src: "assets/career/2018-cyber-cafe.jpg", date: "19 June 2018", caption: "At work in the Harmony Entertainment cyber café" },
+    { src: "assets/career/2021-canon.jpg", date: "21 January 2021", caption: "With a Canon camera, on a lunch stop after a shoot that didn't happen" },
+    { src: "assets/career/2023-08-reception-a.jpg", date: "31 August 2023", caption: "At the reception and secretary's desk" },
+    { src: "assets/career/2023-08-reception-b.jpg", date: "31 August 2023", caption: "Receiving visitors at the secretary's desk" },
+    { src: "assets/career/2023-09-office-a.jpg", date: "15 September 2023", caption: "In the administrative office" },
+    { src: "assets/career/2023-09-office-b.jpg", date: "15 September 2023", caption: "In the administrative office" },
+    { src: "assets/career/2023-10-office.jpg", date: "5 October 2023", caption: "In the administrative office" },
+    { src: "assets/career/2023-10-office-door.jpg", date: "10 October 2023", caption: "In front of the administrative office" },
   ],
   education: [
     { title: "Certificate in Accounting and Management Skills (CAMS): Graduate", org: "KASNEB · Level I May 2021, Level II April 2022", period: "2022" },

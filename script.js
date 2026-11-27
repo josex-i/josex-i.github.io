@@ -52,7 +52,18 @@
   if (!C.aboutPhoto) $("#about-photo")?.remove();
 
   /* ----- key figures ----- */
-  html("#stats", (C.stats || []).map((s) => `<div><dt>${esc(s.value)}</dt><dd>${esc(s.label)}</dd></div>`).join(""));
+  /* each figure gets a small picture that animates in ("results first") */
+  function vizHTML(v) {
+    if (!v) return "";
+    if (v.type === "meter") {
+      const base = Math.min(v.pct, 100) / Math.max(v.pct, 100) * 100;
+      return `<div class="kv kv--meter" aria-hidden="true"><i style="--w:${base}%"></i>${v.pct > 100 ? `<b style="--w:${100 - base}%"></b>` : ""}<em style="left:${base}%">target</em></div>`;
+    }
+    if (v.type === "checks") return `<div class="kv kv--checks" aria-hidden="true">${Array.from({ length: v.total }, (_, i) => `<i class="${i < v.pass ? "ok" : ""}" style="--i:${i}"></i>`).join("")}</div>`;
+    if (v.type === "compare") return `<div class="kv kv--compare" aria-hidden="true"><span><i style="--w:100%"></i><small>Before · ${v.before} ${esc(v.unit || "")}</small></span><span><i class="now" style="--w:${v.after / v.before * 100}%"></i><small>Now · ${v.after} ${esc(v.unit || "")}</small></span></div>`;
+    return `<div class="kv kv--count" aria-hidden="true">${Array.from({ length: 24 }, (_, i) => `<i style="--h:${30 + Math.round(60 * Math.abs(Math.sin(i * 1.7)))}%;--i:${i}"></i>`).join("")}</div>`;
+  }
+  html("#stats", (C.stats || []).map((s, i) => `<div class="kf reveal" style="--d:${i * 90}ms"><dt data-countup="${esc(s.value)}">${esc(s.value)}</dt><dd>${esc(s.label)}</dd>${vizHTML(s.viz)}</div>`).join(""));
 
   /* ----- profile ----- */
   html("#about-text", (C.about || []).map((p) => `<p>${esc(p)}</p>`).join(""));
@@ -146,13 +157,16 @@
   /* ----- films (Google Drive, loaded only when played) ----- */
   const films = C.films || [];
   if (!films.length) { $("#films")?.remove(); $('a[href="#films"]')?.remove(); }
-  html("#film-list", films.map((f) => `
-    <article class="film">
+  html("#films-pitch", esc(C.filmsPitch || ""));
+  const ytCta = $("#yt-cta");
+  if (ytCta) { if ((C.contact || {}).youtube) ytCta.href = C.contact.youtube; else ytCta.remove(); }
+  html("#film-list", films.map((f, i) => `
+    <article class="film reveal" style="--d:${i * 100}ms">
       <button class="film__frame" data-id="${esc(f.id)}" aria-label="Play ${esc(f.title)}">
         <img src="https://drive.google.com/thumbnail?id=${encodeURIComponent(f.id)}&sz=w1000" alt="" loading="lazy" onerror="this.remove()">
         <span class="film__play" aria-hidden="true">▶</span>
       </button>
-      <div class="film__meta"><h3>${esc(f.title)}</h3><p>${esc(f.note || "")}</p>
+      <div class="film__meta"><span class="film__no">${String(i + 1).padStart(2, "0")}${f.tag ? ` · ${esc(f.tag)}` : ""}</span><h3>${esc(f.title)}</h3><p>${esc(f.note || "")}</p>
         <a href="https://drive.google.com/file/d/${encodeURIComponent(f.id)}/view" target="_blank" rel="noopener">Open in Drive ↗</a></div>
     </article>`).join(""));
   $("#film-list")?.addEventListener("click", (e) => {
@@ -202,7 +216,8 @@
 
   /* AV cards + gallery share one lightbox */
   const gallery = C.photos || [];
-  const photos = av.concat(gallery);
+  const frameStart = av.length + gallery.length;
+  const photos = av.concat(gallery, (C.careerFrames || []).map((f) => ({ src: f.src, caption: `${f.caption} · ${f.date}` })));
   const pad = (n) => String(n).padStart(2, "0");
   html("#av-grid", av.map((p, i) => `
     <button class="av-card" data-i="${i}" aria-label="Open photo: ${esc(p.caption)}">
@@ -221,6 +236,7 @@
   let cur = 0;
   const show = (i) => { cur = (i + photos.length) % photos.length; lbImg.src = photos[cur].src; lbImg.alt = photos[cur].caption; lbCap.textContent = photos[cur].caption; };
   ["#gallery", "#av-grid"].forEach((sel) => $(sel)?.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; show(+b.dataset.i); lb.showModal(); }));
+  $("#frames")?.addEventListener("click", (e) => { const b = e.target.closest(".frame"); if (!b || window.__framesDragged) return; show(frameStart + +b.dataset.i); lb.showModal(); });
   $(".lightbox__close", lb).onclick = () => lb.close();
   $(".lightbox__prev", lb).onclick = () => show(cur - 1);
   $(".lightbox__next", lb).onclick = () => show(cur + 1);
@@ -238,9 +254,25 @@
     </li>`).join(""));
 
   /* ----- experience ----- */
-  html("#timeline", (C.experience || []).map((x) => `
-    <li class="reveal">
-      <div class="period">${esc(x.period)}</div>
+  const XP = C.experience || [];
+  const years = XP.map((x) => +(String(x.period).match(/\d{4}/) || [0])[0]).filter(Boolean);
+  const since = years.length ? Math.min(...years) : null;
+  html("#record-meta", [
+    [String(XP.length).padStart(2, "0"), "roles on record"],
+    since ? [String(new Date().getFullYear() - since), `years working, since ${since}`] : null,
+    [String(XP.filter((x) => /present/i.test(x.period)).length).padStart(2, "0"), "roles held today"],
+  ].filter(Boolean).map(([v, l]) => `<div><dt>${esc(v)}</dt><dd>${esc(l)}</dd></div>`).join(""));
+  const FR = C.careerFrames || [];
+  html("#frames", FR.length ? `<div class="frames__track">${FR.map((f, i) => `
+    <button class="frame" data-i="${i}" aria-label="Open photo: ${esc(f.caption)}, ${esc(f.date)}">
+      <span class="frame__img"><img src="${esc(f.src)}" alt="${esc(f.caption)}" loading="lazy" draggable="false"></span>
+      <span class="frame__meta"><b>${esc(f.date)}</b>${esc(f.caption)}</span>
+    </button>`).join("")}</div>
+    <div class="frames__bar"><span>Career in frames · ${FR.length} photos · drag or scroll</span><i><b id="frames-progress"></b></i></div>` : "");
+  if (!FR.length) $("#frames")?.remove();
+  html("#timeline", XP.map((x, i) => `
+    <li class="reveal${/present/i.test(x.period) ? " is-current" : ""}" style="--d:${i * 60}ms">
+      <div class="period"><span class="code">R—${String(XP.length - i).padStart(2, "0")}</span>${esc(x.period)}${/present/i.test(x.period) ? `<span class="live"><span class="dot"></span>Current</span>` : ""}</div>
       <div>
         <h3>${esc(x.role)}</h3>
         <div class="org">${esc(x.org)}</div>
@@ -253,8 +285,15 @@
   /* ----- contact ----- */
   const k = C.contact || {};
   const emailBtn = $("#email-btn");
-  if (k.email) { emailBtn.href = `mailto:${k.email}`; emailBtn.textContent = k.email; }
-  else emailBtn.remove();
+  const copyBtn = $("#copy-email");
+  if (k.email) {
+    emailBtn.href = `mailto:${k.email}`; emailBtn.textContent = k.email;
+    copyBtn?.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(k.email); copyBtn.textContent = "Copied ✓"; }
+      catch { copyBtn.textContent = k.email; }
+      setTimeout(() => (copyBtn.textContent = "Copy address"), 2200);
+    });
+  } else { emailBtn.remove(); copyBtn?.remove(); }
   const links = [
     k.phone && [`tel:${k.phone.replace(/\s/g, "")}`, k.phone],
     k.linkedin && [k.linkedin, "LinkedIn"],
@@ -266,6 +305,11 @@
   ].filter(Boolean);
   html("#contact-links", links.map(([href, text]) =>
     href ? `<li><a href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>${esc(text)}</a></li>` : `<li class="plain">${esc(text)}</li>`).join(""));
+  $("#footer-reach")?.insertAdjacentHTML("beforeend", links.filter(([h]) => h).map(([href, text]) =>
+    `<a href="${esc(href)}" ${href.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>${esc(text)}</a>`).join(""));
+  const fclock = $("#footer-clock");
+  const tick = () => { if (fclock) fclock.textContent = new Date().toLocaleTimeString("en-GB", { timeZone: "Africa/Nairobi", hour: "2-digit", minute: "2-digit" }); };
+  tick(); setInterval(tick, 30000);
 
   /* ----- make the big hero name fill the width exactly ----- */
   const nameEl = $(".hero__name");
@@ -301,16 +345,102 @@
     document.querySelectorAll(".natural .gallery button, .natural .project__media, .archive figure").forEach((el) => { el.classList.add("focus-pull"); fo.observe(el); });
   }
 
+  /* ----- motion design ----- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // back to top: the old link pointed at the fixed header, so it never moved. Scroll the window instead.
+  document.querySelectorAll('a[href="#top"]').forEach((a) => a.addEventListener("click", (e) => {
+    e.preventDefault(); scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); a.blur();
+  }));
+
+  // scroll progress (top bar + ring on the back-to-top button) and frame parallax
+  const bar = $("#progress"), ring = $("#to-top-ring"), toTop = $("#to-top");
+  const RING = 2 * Math.PI * 21;
+  if (ring) ring.style.strokeDasharray = RING;
+  const frTrack = $(".frames__track"), frProg = $("#frames-progress");
+  const frImgs = [...document.querySelectorAll(".frame__img img")];
+  let ticking = false;
+  function onFrame() {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const p = max > 0 ? scrollY / max : 0;
+    if (bar) bar.style.transform = `scaleX(${p})`;
+    if (ring) ring.style.strokeDashoffset = RING * (1 - p);
+    toTop?.classList.toggle("is-shown", scrollY > innerHeight * 0.8);
+    if (!reduce) frImgs.forEach((img) => {
+      const r = img.parentElement.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
+      const c = (r.left + r.width / 2) / innerWidth - 0.5;
+      img.style.transform = `scale(1.14) translateX(${(-c * 7).toFixed(2)}%)`;
+    });
+  }
+  const req = () => { if (!ticking) { ticking = true; requestAnimationFrame(onFrame); } };
+  addEventListener("scroll", req, { passive: true }); addEventListener("resize", req); onFrame();
+
+  // career frames: drag with the mouse, progress line underneath
+  if (frTrack) {
+    const upd = () => { const m = frTrack.scrollWidth - frTrack.clientWidth; if (frProg) frProg.style.transform = `scaleX(${m > 0 ? Math.max(0.08, frTrack.scrollLeft / m) : 1})`; req(); };
+    frTrack.addEventListener("scroll", upd, { passive: true }); upd();
+    let sx = 0, sl = 0, down = false;
+    frTrack.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") return; down = true; window.__framesDragged = false; sx = e.clientX; sl = frTrack.scrollLeft; });
+    addEventListener("pointermove", (e) => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 5) { window.__framesDragged = true; frTrack.classList.add("is-dragging"); } frTrack.scrollLeft = sl - dx; });
+    addEventListener("pointerup", () => { if (!down) return; down = false; frTrack.classList.remove("is-dragging"); setTimeout(() => (window.__framesDragged = false), 0); });
+  }
+
+  // 3D tilt + light on the contact card
+  const card = $("#contact-card");
+  if (card && !reduce && matchMedia("(pointer: fine)").matches) {
+    card.addEventListener("pointermove", (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(900px) rotateX(${(-y * 7).toFixed(2)}deg) rotateY(${(x * 9).toFixed(2)}deg)`;
+      card.style.setProperty("--mx", `${((x + 0.5) * 100).toFixed(1)}%`); card.style.setProperty("--my", `${((y + 0.5) * 100).toFixed(1)}%`);
+    });
+    card.addEventListener("pointerleave", () => (card.style.transform = ""));
+  }
+
+  // count-up for the figures ("116%", "10 / 10", "19,017", "10 min")
+  function countUp(el) {
+    const raw = el.dataset.countup, m = raw.match(/[\d,]+(\.\d+)?/);
+    if (!m || reduce) return;
+    const target = parseFloat(m[0].replace(/,/g, "")), comma = m[0].includes(",");
+    const t0 = performance.now(), dur = 1600;
+    const step = (t) => {
+      const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 4);
+      const v = Math.round(target * e);
+      el.textContent = raw.replace(m[0], comma ? v.toLocaleString("en-US") : String(v));
+      if (k < 1) requestAnimationFrame(step); else el.textContent = raw;
+    };
+    requestAnimationFrame(step);
+  }
+
+  // headings rise; most blocks fade up with a short stagger
+  if (!reduce) {
+    document.querySelectorAll("main h2").forEach((h) => { h.classList.add("rise"); h.parentElement.classList.add("rise-host"); });
+    const auto = [".sec-head .eyebrow", ".sec-lede", ".lead", ".prose p", ".about-photo", ".comp", ".flow__step", ".tk", ".control", ".office .admin li", ".av-card", ".media-feature", ".project", ".frames", ".edu li", ".contact__sub", ".contact__card", ".figures__head", ".record__meta div"];
+    const sel = auto.join(",");
+    document.querySelectorAll(sel).forEach((el) => {
+      if (el.classList.contains("reveal")) return;
+      el.classList.add("reveal");
+      const sibs = [...el.parentElement.children].filter((c) => c.matches(sel));
+      el.style.setProperty("--d", `${Math.min(sibs.indexOf(el), 8) * 70}ms`);
+    });
+  }
+
   /* ----- reveal on scroll + active nav link ----- */
   if ("IntersectionObserver" in window) {
-    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("is-visible"); io.unobserve(en.target); } }), { threshold: 0.1 });
-    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    const io = new IntersectionObserver((es) => es.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add("is-visible"); io.unobserve(en.target);
+      en.target.querySelectorAll("[data-countup]").forEach(countUp);
+    }), { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    document.querySelectorAll(".reveal, .rise-host").forEach((el) => io.observe(el));
     const navLinks = [...menu.querySelectorAll('a[href^="#"]')];
     const spy = new IntersectionObserver((es) => es.forEach((en) => {
       if (en.isIntersecting) navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${en.target.id}`));
     }), { rootMargin: "-45% 0px -50% 0px" });
     document.querySelectorAll("main section[id]").forEach((s) => spy.observe(s));
   } else {
-    document.querySelectorAll(".reveal").forEach((el) => el.classList.add("is-visible"));
+    document.querySelectorAll(".reveal, .rise").forEach((el) => el.classList.add("is-visible"));
   }
 })();

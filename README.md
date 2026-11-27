@@ -41,6 +41,13 @@ That's the link for your CV, email signature, LinkedIn "Website" field and job a
 **Updating later:** edit the files, then upload them to the repo again (or use VS Code's
 Source Control panel / GitHub Desktop to push changes). The site updates in about a minute.
 
+## If visitors still see the old version
+
+Browsers keep copies of `content.js`, `script.js`, `styles.css` and `hero.js`.
+At the bottom of `index.html` (and in the `<head>` for the stylesheet), each file name ends in
+`?v=20261127`. After a change, set that number to today's date in all four places so every
+visitor gets the new files.
+
 ## Updating your CV
 
 The CV is the page `cv.html`. Edit its text in VS Code, then rebuild the PDF the

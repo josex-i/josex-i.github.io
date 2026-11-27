@@ -36,12 +36,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20261127" />
 </head>
-<body>
+<body id="top">
+  <div class="progress" aria-hidden="true"><i id="progress"></i></div>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="nav" id="top">
+  <header class="nav">
     <div class="wrap nav__inner">
       <a href="#top" class="brand" aria-label="Back to top"><span data-bind="initials"></span></a>
       <nav id="menu" class="nav__menu" aria-label="Main">
@@ -86,12 +87,18 @@
     </section>
 
     <!-- KEY FIGURES -->
-    <section class="figures">
-      <div class="wrap"><dl class="keyfigs" id="stats"></dl></div>
+    <section class="figures" aria-label="Results in numbers">
+      <div class="wrap">
+        <div class="figures__head">
+          <p class="eyebrow"><span>00</span> Results, measured</p>
+          <p class="figures__note">Live figures from the workbooks I run · as at 13 Oct 2026</p>
+        </div>
+        <dl class="keyfigs" id="stats"></dl>
+      </div>
     </section>
 
     <!-- 01 PROFILE -->
-    <section class="section" id="profile">
+    <section class="section results" id="profile">
       <div class="wrap">
         <header class="sec-head">
           <p class="eyebrow"><span>01</span> About</p>
@@ -200,9 +207,13 @@
             <p class="eyebrow"><span>06</span> Films</p>
             <h2>Videos I've <em>worked on</em></h2>
           </div>
-          <p class="sec-lede">Event and feature videos. Press play. They stream from Google Drive and load only when you start them.</p>
+          <p class="sec-lede"><span id="films-pitch"></span><em>Press play. Films stream from Google Drive and load only when you start them.</em></p>
         </header>
         <div class="films" id="film-list"></div>
+        <div class="film-cta reveal">
+          <p><b>Have an event worth remembering?</b> <span>Liturgies, school days, tournaments, launches. I can help capture it.</span></p>
+          <div class="film-cta__btns"><a class="btn btn--light" href="#contact">Start a conversation <span aria-hidden="true">→</span></a><a class="btn btn--ghost" id="yt-cta" href="#" target="_blank" rel="noopener">More on YouTube ↗</a></div>
+        </div>
       </div>
     </section>
 
@@ -215,12 +226,16 @@
     </section>
 
     <!-- 06 EXPERIENCE -->
-    <section class="section section--alt" id="experience">
+    <section class="section record" id="experience">
       <div class="wrap">
-        <header class="sec-head">
-          <p class="eyebrow"><span>07</span> Experience</p>
-          <h2>Career <em>record</em></h2>
+        <header class="sec-head sec-head--row">
+          <div>
+            <p class="eyebrow"><span>07</span> Experience</p>
+            <h2>Career <em>record</em></h2>
+          </div>
+          <dl class="record__meta" id="record-meta"></dl>
         </header>
+        <div class="frames" id="frames" aria-label="Career in frames"></div>
         <ol class="timeline" id="timeline"></ol>
         <div class="grid-2 edu-wrap">
           <h3 class="sub sub--flush">Education &amp; certifications</h3>
@@ -234,22 +249,46 @@
 
     <!-- CONTACT -->
     <section class="contact" id="contact">
-      <div class="wrap">
-        <p class="eyebrow eyebrow--center">Contact</p>
+      <div class="contact__sky" aria-hidden="true"><div class="contact__floor"></div><div class="contact__orb"></div></div>
+      <div class="wrap contact__inner">
+        <p class="eyebrow eyebrow--center"><span>08</span> Contact</p>
         <h2 class="contact__title">Let's work <em>together.</em></h2>
         <p class="contact__sub">Open to finance and administration roles, and to photography and video work.</p>
-        <a class="btn btn--light btn--large" id="email-btn" href="#">Email me</a>
-        <ul class="contact__links" id="contact-links"></ul>
+        <div class="contact__card" id="contact-card">
+          <span class="contact__status"><span class="dot"></span> <span data-bind="availability"></span></span>
+          <a class="contact__email" id="email-btn" href="#">Email me</a>
+          <button class="contact__copy" id="copy-email" type="button">Copy address</button>
+          <ul class="contact__links" id="contact-links"></ul>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap footer__inner">
-      <span>© <span id="year"></span> <span data-bind="name"></span> · <span data-bind="location"></span></span>
-      <a href="#top">Back to top ↑</a>
+    <div class="wrap footer__grid">
+      <div class="footer__brand">
+        <span class="footer__mark" data-bind="initials"></span>
+        <p><span data-bind="name"></span><br><small data-bind="role"></small></p>
+      </div>
+      <nav class="footer__col" aria-label="Footer">
+        <h3>Index</h3>
+        <a href="#toolkits">Case studies</a><a href="#administration">Administration</a><a href="#media">Media</a><a href="#films">Films</a><a href="#experience">Career record</a>
+      </nav>
+      <div class="footer__col" id="footer-reach"><h3>Reach</h3></div>
+      <div class="footer__col">
+        <h3>Local time</h3>
+        <p class="footer__clock"><span id="footer-clock"></span><small>Kisumu · EAT (UTC+3)</small></p>
+      </div>
     </div>
+    <div class="wrap footer__base">
+      <span>© <span id="year"></span> <span data-bind="name"></span> · <span data-bind="location"></span></span>
+      <span class="footer__built">Hand-built in HTML, CSS &amp; JavaScript · no templates</span>
+      <a href="#top" class="footer__top">Back to top <span aria-hidden="true">↑</span></a>
+    </div>
+    <p class="footer__word" aria-hidden="true" data-bind="heroDisplay"></p>
   </footer>
+
+  <a href="#top" class="to-top" id="to-top" aria-label="Back to top"><svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21" class="to-top__track"/><circle cx="24" cy="24" r="21" class="to-top__ring" id="to-top-ring"/><path d="M24 31V17m-6 6 6-6 6 6"/></svg></a>
 
   <dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
     <button class="lightbox__close" aria-label="Close">×</button>
@@ -258,8 +297,8 @@
     <button class="lightbox__nav lightbox__next" aria-label="Next photo">›</button>
   </dialog>
 
-  <script src="content.js"></script>
-  <script src="script.js"></script>
-  <script src="hero.js"></script>
+  <script src="content.js?v=20261127"></script>
+  <script src="script.js?v=20261127"></script>
+  <script src="hero.js?v=20261127"></script>
 </body>
 </html>
