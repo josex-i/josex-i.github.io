@@ -41,6 +41,32 @@ That's the link for your CV, email signature, LinkedIn "Website" field and job a
 **Updating later:** edit the files, then upload them to the repo again (or use VS Code's
 Source Control panel / GitHub Desktop to push changes). The site updates in about a minute.
 
+## Tailored versions (one link per kind of job)
+
+The same site can show only what fits one kind of job. Send the matching link with each application:
+
+| Version | Link |
+|---|---|
+| Finance & accounts | https://josex-i.github.io/?for=finance |
+| Administration | https://josex-i.github.io/?for=admin |
+| Guest services & front desk | https://josex-i.github.io/?for=guest |
+| IT support | https://josex-i.github.io/?for=it |
+| Stage, AV & events | https://josex-i.github.io/?for=stage |
+
+**Making a new version** (for example, hotel AV technician):
+
+1. In `content.js`, find `versions: [`. Copy one whole block from `{` to `},` and paste it after the last one.
+2. Change `id` (small letters, numbers and `-` only, e.g. `hotel-av`), `label`, `heroTitle`, `heroCreds`,
+   `intro`, `about` and `sections`. Delete the `cv:` line; the full CV is offered until Claude makes yours.
+3. Add your new id to the `for: [...]` list of every role, skill card, number and photo it should show,
+   e.g. `for: ["stage", "hotel-av"]`. Anything with no `for:` list shows everywhere.
+4. Optional check (catches typos): in the VS Code terminal run `node --test tests/`. All tests should pass.
+5. Publish as usual. Your link is `https://josex-i.github.io/?for=hotel-av`.
+
+**Rebuilding the CV PDFs** (Claude normally does this): start the local preview, then run
+`node tools/build-cvs.cjs` and check them with `node tools/check-cvs.cjs`. The CV page `cv.html` uses
+`data-for="..."` labels the same way `content.js` uses `for:`.
+
 ## If visitors still see the old version
 
 Browsers keep copies of `content.js`, `script.js`, `styles.css` and `hero.js`.

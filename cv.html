@@ -6,7 +6,8 @@
 <meta name="robots" content="noindex" />
 <title>Joseph Omondi Otieno · CV</title>
 <style>
-  /* Printable two-page A4 CV. Edit the text below, then re-create the PDF (see README). */
+  /* Printable two-page A4 CV. Edit the text below, then re-create the PDFs (see README).
+     data-for="..." = which tailored versions (?for=ID) show that block; no data-for = every version. */
   @page { size: A4; margin: 15mm 16mm; }
   :root { --ink: #111; --ink-2: #444; --ink-3: #777; --line: #d9d9d6; --accent: #1f7a4d; }
   * { box-sizing: border-box; }
@@ -50,25 +51,25 @@
   <header>
     <div>
       <h1>Joseph Omondi Otieno</h1>
-      <p class="role">Bookkeeper / Treasurer · Administrative Secretary</p>
+      <p class="role" id="cv-role">Bookkeeper / Treasurer · Administrative Secretary</p>
       <p class="contact">Kisumu, Kenya · <a href="tel:+254740339124">+254 740 339 124</a> · <a href="mailto:omondijose58@gmail.com">omondijose58@gmail.com</a><br>
         <a href="https://www.linkedin.com/in/joseph-omondi-otieno">linkedin.com/in/joseph-omondi-otieno</a> · Portfolio: <a href="https://josex-i.github.io">josex-i.github.io</a></p>
     </div>
     <img src="assets/photos/headshot.jpg" alt="Joseph Omondi Otieno" />
   </header>
 
-  <p class="summary">Bookkeeper and Administrative Secretary at St. Theresa's Cathedral, Kibuye (Archdiocese of Kisumu), one of the largest Catholic cathedrals in Western Kenya. I count the parish's cash, reconcile it against M-Pesa and the bank, prepare all of its financial reports, and design the Excel toolkits that keep the figures right. CAMS graduate (KASNEB) with QuickBooks experience, and an experienced audio-visual and ICT lead.</p>
+  <p class="summary" id="cv-summary">Bookkeeper and Administrative Secretary at St. Theresa's Cathedral, Kibuye (Archdiocese of Kisumu), one of the largest Catholic cathedrals in Western Kenya. I count the parish's cash, reconcile it against M-Pesa and the bank, prepare all of its financial reports, and design the Excel toolkits that keep the figures right. CAMS graduate (KASNEB) with QuickBooks experience, and an experienced audio-visual and ICT lead.</p>
 
-  <h2>Highlights</h2>
-  <ul class="highlights">
-    <li><b>116%</b><span>of the KSh 1M roof appeal target I set: KSh 1,161,928 raised, nil variance</span></li>
-    <li><b>19,017</b><span>M-Pesa Paybill payments reconciled to the bank in 12 months</span></li>
-    <li><b>10 min</b><span>weekly financial report, down from 30–35 minutes</span></li>
-    <li><b>10 / 10</b><span>integrity checks passing on the 43-stall rent ledger I built</span></li>
+  <h2 id="cv-highlights-title">Highlights</h2>
+  <ul class="highlights" id="cv-highlights">
+    <li data-for="finance"><b>116%</b><span>of the KSh 1M roof appeal target I set: KSh 1,161,928 raised, nil variance</span></li>
+    <li data-for="finance admin"><b>19,017</b><span>M-Pesa Paybill payments reconciled to the bank in 12 months</span></li>
+    <li data-for="finance admin"><b>10 min</b><span>weekly financial report, down from 30–35 minutes</span></li>
+    <li data-for="finance"><b>10 / 10</b><span>integrity checks passing on the 43-stall rent ledger I built</span></li>
   </ul>
 
   <h2>Experience</h2>
-  <div class="job">
+  <div class="job" data-for="finance admin">
     <div class="job__head"><h3>Bookkeeper / Treasurer</h3><span class="when">Aug 2023 – Present</span></div>
     <div class="org">St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu</div>
     <ul class="points">
@@ -81,7 +82,7 @@
       <li>Built the parish annual expenditure budget (KSh 8.2M, six departments, 43 costed lines) and track the KSh 80.7M two-account budget against actuals.</li>
     </ul>
   </div>
-  <div class="job">
+  <div class="job" data-for="admin guest finance">
     <div class="job__head"><h3>Administrative Secretary</h3><span class="when">Oct 2022 – Present</span></div>
     <div class="org">St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu</div>
     <ul class="points">
@@ -92,7 +93,7 @@
       <li>Registered 27 contractor quotations (KSh 6.9M) for the 2026 renovation works, each numbered and tracked to payment.</li>
     </ul>
   </div>
-  <div class="job">
+  <div class="job" data-for="stage it">
     <div class="job__head"><h3>Head of AV / ICT</h3><span class="when">Oct 2019 – Present</span></div>
     <div class="org">St. Theresa's Cathedral, Kibuye Catholic Church · Kisumu</div>
     <ul class="points">
@@ -101,7 +102,7 @@
     </ul>
   </div>
 
-  <div class="job">
+  <div class="job" data-for="finance it admin">
     <div class="job__head"><h3>Accounts &amp; ICT duties</h3><span class="when">Sep 2021 – Feb 2022</span></div>
     <div class="org">Exuviance Professionals · Nairobi</div>
     <ul class="points">
@@ -109,12 +110,12 @@
       <li>Maintained the client (CRM) database; built the marketing team's client record system and stock-expiry tracking in Excel.</li>
     </ul>
   </div>
-  <div class="job">
+  <div class="job" data-for="stage">
     <div class="job__head"><h3>Assistant camera operator (freelance)</h3><span class="when">2022</span></div>
     <div class="org">NewDawn Media Creations · Kisumu</div>
     <ul class="points"><li>Captured live liturgical events on a tripod-mounted DSLR for editing.</li></ul>
   </div>
-  <div class="job">
+  <div class="job" data-for="it guest">
     <div class="job__head"><h3>Cyber café attendant</h3><span class="when">Jan 2018 – Dec 2019</span></div>
     <div class="org">Harmony Entertainment · Kisumu</div>
     <ul class="points"><li>Helped customers with ICT tasks and research; recorded customer usage and billing accurately.</li></ul>
@@ -124,11 +125,12 @@
     <div>
       <h2>Skills</h2>
       <ul class="skills">
-        <li><b>Finance:</b> cash control, bank &amp; M-Pesa reconciliation, income &amp; expenditure, budgeting, payroll schedules (NSSF, NITA, Housing Levy), receivables &amp; arrears.</li>
-        <li><b>Excel:</b> formulas, data validation, linked workbooks, reconciliation checks, reporting; VBA toolkits specified and tested by me, built with Claude AI.</li>
+        <li data-for="finance admin"><b>Finance:</b> cash control, bank &amp; M-Pesa reconciliation, income &amp; expenditure, budgeting, payroll schedules (NSSF, NITA, Housing Levy), receivables &amp; arrears.</li>
+        <li data-for="finance admin it"><b>Excel:</b> formulas, data validation, linked workbooks, reconciliation checks, reporting; VBA toolkits specified and tested by me, built with Claude AI.</li>
         <li><b>Software:</b> Microsoft Excel, Word, QuickBooks, M-Pesa Paybill, Claude AI, ChatGPT, Google Gemini.</li>
-        <li><b>Administration:</b> correspondence, minutes, records, registers, procurement records, event logistics.</li>
-        <li><b>AV &amp; ICT:</b> live sound (Midas M32), event video &amp; photography, Linux, networking basics.</li>
+        <li data-for="admin guest finance"><b>Administration:</b> correspondence, minutes, records, registers, procurement records, event logistics.</li>
+        <li data-for="guest"><b>Guest relations:</b> receiving visitors, bishops and officials at a busy cathedral office; customer service at a cyber café; English, Kiswahili &amp; Dholuo.</li>
+        <li data-for="stage it guest"><b>AV &amp; ICT:</b> live sound (Midas M32), event video &amp; photography, Linux, networking basics.</li>
       </ul>
     </div>
     <div>
@@ -147,7 +149,20 @@
     </div>
   </div>
 
-  <div class="foot"><span>References available on request.</span><span>Case studies &amp; work samples: josex-i.github.io</span></div>
+  <div class="foot"><span>References available on request.</span></div>
 </div>
+<script src="content.js"></script>
+<script src="versions.js"></script>
+<script>
+  // ?for=ID prints that version's CV: its headline and summary, and only the blocks tagged for it.
+  (function () {
+    const C = window.CONTENT || CONTENT, V = Versions.pickVersion(C, location.search);
+    if (!V) return;
+    document.getElementById("cv-role").textContent = V.heroTitle;
+    document.getElementById("cv-summary").textContent = V.intro;
+    document.querySelectorAll("[data-for]").forEach((el) => { if (!el.dataset.for.split(/\s+/).includes(V.id)) el.remove(); });
+    if (!document.querySelector("#cv-highlights li")) { document.getElementById("cv-highlights")?.remove(); document.getElementById("cv-highlights-title")?.remove(); }
+  })();
+</script>
 </body>
 </html>
