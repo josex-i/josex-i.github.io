@@ -239,7 +239,12 @@
   /* AV cards + gallery share one lightbox */
   const gallery = C.photos || [];
   const frameStart = av.length + gallery.length;
-  const photos = av.concat(gallery, (C.careerFrames || []).map((f) => ({ src: f.src, caption: `${f.caption} · ${f.date}` })));
+  // a gallery photo's details: title, optional story, and camera settings when the file had them
+  const camLine = (p) => [p.camera, p.lens, p.settings, p.taken].filter(Boolean).join(" · ");
+  const photoCap = (p) => [p.caption, p.story, camLine(p)].filter(Boolean).join(" — ");
+  html("#photo-intro", esc(C.photographyIntro || ""));
+  if (!C.photographyIntro) $("#photo-intro")?.remove();
+  const photos = av.concat(gallery.map((p) => ({ ...p, caption: photoCap(p) })), (C.careerFrames || []).map((f) => ({ src: f.src, caption: `${f.caption} · ${f.date}` })));
   const pad = (n) => String(n).padStart(2, "0");
   html("#av-grid", av.map((p, i) => `
     <button class="av-card" data-i="${i}" aria-label="Open photo: ${esc(p.caption)}">
@@ -252,7 +257,8 @@
     <p class="archive__caption">${esc(A.caption)}</p>` : "");
   html("#gallery", gallery.map((p, i) => `
     <button data-i="${av.length + i}" aria-label="Open photo: ${esc(p.caption)}">
-      <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"><span>${esc(p.caption)}</span>
+      <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy">
+      <span class="ph-info"><b>${esc(p.caption)}</b>${p.story ? `<i>${esc(p.story)}</i>` : ""}${camLine(p) ? `<small>${esc(camLine(p))}</small>` : ""}</span>
     </button>`).join(""));
   const lb = $("#lightbox"), lbImg = $("img", lb), lbCap = $("figcaption", lb);
   let cur = 0;

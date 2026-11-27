@@ -79,3 +79,28 @@ async function checkRoles(w = window) {
   }
   return { ok: !problems.length, problems };
 }
+
+// Web & photography: intro line, details strip on each photo, touch screens always show it, lightbox caption.
+async function checkPhotos(w = window) {
+  const d = w.document, problems = [], C = w.CONTENT || CONTENT;
+  const intro = "Church photographer for St. Theresa's Cathedral · shooting on a Canon EOS R100 since August 2025.";
+  if (d.getElementById("photo-intro")?.textContent.trim() !== intro) problems.push("intro line");
+  const btns = [...d.querySelectorAll("#gallery button")];
+  btns.forEach((b, i) => {
+    const p = C.photos[i], info = b.querySelector(".ph-info");
+    if (!info || info.querySelector("b")?.textContent !== p.caption) problems.push(`photo ${i} caption strip`);
+    if (p.camera && !info?.querySelector("small")?.textContent.includes(p.camera)) problems.push(`photo ${i} camera details`);
+    if (!p.camera && info?.querySelector("small")) problems.push(`photo ${i} shows settings it doesn't have`);
+    if (w.matchMedia("(hover: none)").matches && info) {
+      const cs = w.getComputedStyle(info);
+      if (cs.transform !== "none" || cs.opacity === "0" || info.offsetHeight === 0) problems.push(`photo ${i} details hidden on touch`);
+    }
+  });
+  if (btns[0]) {
+    btns[0].click(); await new Promise((r) => setTimeout(r, 100));
+    const cap = d.querySelector("#lightbox figcaption")?.textContent || "";
+    if (!cap.includes(C.photos[0].caption)) problems.push("lightbox caption");
+    d.getElementById("lightbox")?.close();
+  }
+  return { ok: !problems.length, problems, hoverNone: w.matchMedia("(hover: none)").matches };
+}

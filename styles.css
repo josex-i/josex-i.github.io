@@ -764,3 +764,24 @@ p { margin: 0 0 1em; }
 }
 @media (prefers-reduced-motion: reduce) { .swap { animation: none; } }
 @media print { .roles { display: block; } .roles__panel { display: none; } .role__drawer { display: block !important; } .role__photo { display: none; } }
+
+/* =====================================================================
+   05 · WEB & PHOTOGRAPHY: darkroom wall (warm, grainy) + details strip on every photo
+   ===================================================================== */
+.natural { position: relative; isolation: isolate; background: radial-gradient(120% 80% at 30% 0%, #241c12, #0d0b08 70%); }
+.natural::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .2;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 .9  0 0 0 0 .75  0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
+.photo-intro { margin: -12px 0 28px; font: italic 400 clamp(1.1rem, 1.8vw, 1.35rem)/1.4 var(--serif); color: #d8c3a0; }
+.natural .gallery span.ph-info { position: absolute; left: 0; right: 0; bottom: 0; top: auto; z-index: 1; display: grid; gap: 3px; padding: 30px 14px 12px; border-radius: 0; text-align: left;
+  background: linear-gradient(transparent, rgb(10 8 5 / .92) 45%); color: #e9dcc4; font: 400 .7rem/1.4 var(--mono); letter-spacing: .02em;
+  opacity: 1; transform: translateY(101%); transition: transform .45s var(--ease-out); }
+.ph-info b { font: italic 400 1.05rem/1.2 var(--serif); color: #fff; letter-spacing: 0; }
+.ph-info i { font: italic 400 .9rem/1.35 var(--serif); color: #e9dcc4; }
+.ph-info small { font: .68rem var(--mono); color: #c9b48f; }
+.natural .gallery button:hover span.ph-info, .natural .gallery button:focus-visible span.ph-info { transform: none; }
+.natural .gallery button { overflow: hidden; }
+@media (hover: none) {
+  .natural .gallery span.ph-info { position: static; transform: none; padding: 10px 2px 4px; background: none; }
+  .natural .gallery button { background: none; }
+}
+@media (prefers-reduced-motion: reduce) { .natural .gallery span.ph-info { transition: none; } }

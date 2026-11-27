@@ -199,7 +199,7 @@ const CONTENT = {
       id: "visual", title: "Audio-visual & ICT", for: ["stage", "it"],
       summary: "Production for five Sunday Masses.",
       skills: ["AV lead for five Sunday Masses", "Outdoor worship under tents during 2025 construction", "Event video & photography", "Sole ICT support for the parish office", "Website design (cathedral site)"],
-      tools: ["Canon EOS 60D", "Linux", "Networking"],
+      tools: ["Canon EOS R100", "Canon EOS 60D", "Linux", "Networking"],
     },
     {
       id: "ai", title: "AI-assisted building", for: ["finance", "admin", "it"],
@@ -381,6 +381,9 @@ const CONTENT = {
       link: "",
     },
   ],
+  /* Web & photography. Each photo may also have (all optional, only true details):
+       story: "one line in your words", camera: "Canon EOS R100", lens: "...", settings: "f/5.6 · 1/125 s · ISO 200", taken: "14 September 2025" */
+  photographyIntro: "Church photographer for St. Theresa's Cathedral · shooting on a Canon EOS R100 since August 2025.",
   photos: [
     { src: "assets/photos/on-set-02.jpg", caption: "Assistant camera operator at a live liturgical event, April 2022" },
     { src: "assets/photos/photo-01.jpg", caption: "The Marian grotto" },
